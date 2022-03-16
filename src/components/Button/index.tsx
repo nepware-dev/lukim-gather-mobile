@@ -13,9 +13,9 @@ const _Button = ({
     dark = false,
     ...buttonProps
 }: {
-    style: object;
+    style?: object;
     title: string;
-    dark: boolean;
+    dark?: boolean;
 }) => {
     return (
         <Button
