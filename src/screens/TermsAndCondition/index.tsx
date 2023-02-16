@@ -7,7 +7,7 @@ import useLukimInfo from 'hooks/useLukimInfo';
 import styles from './styles';
 
 const TermsAndCondition = () => {
-    const infoData = useLukimInfo('TERMS_AND_CONDITIONS');
+    const infoData = useLukimInfo('terms-and-condition');
     return (
         <View style={styles.container}>
             <WebViewer html={infoData.description} />

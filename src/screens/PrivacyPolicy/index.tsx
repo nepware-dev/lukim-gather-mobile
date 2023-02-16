@@ -7,7 +7,7 @@ import useLukimInfo from 'hooks/useLukimInfo';
 import styles from './styles';
 
 const PrivacyPolicy = () => {
-    const infoData = useLukimInfo('PRIVACY_POLICY');
+    const infoData = useLukimInfo('privacy-policy');
     return (
         <View style={styles.container}>
             <WebViewer html={infoData.description} />
