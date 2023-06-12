@@ -46,6 +46,7 @@ target 'lukimgather' do
         config.build_settings["LD"] = "clang"
         config.build_settings["CXX"] = "clang++"
         config.build_settings["LDPLUSPLUS"] = "clang++"
+        config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
       end
     end
   end

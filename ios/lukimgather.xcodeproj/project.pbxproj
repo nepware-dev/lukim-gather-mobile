@@ -38,6 +38,13 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = lukimgather;
 		};
+		9933986A2A31C96D00576159 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 993398662A31C96D00576159 /* RNAudioRecorderPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNAudioRecorderPlayer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +67,8 @@
 		7DA988CB4CE7074170D207D0 /* Pods-lukimgather-lukimgatherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lukimgather-lukimgatherTests.release.xcconfig"; path = "Target Support Files/Pods-lukimgather-lukimgatherTests/Pods-lukimgather-lukimgatherTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lukimgather/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C7A6E5F22554DE6B6687EA9 /* plain-print.css */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "plain-print.css"; path = "../src/assets/xforms/css/plain-print.css"; sourceTree = "<group>"; };
+		993398662A31C96D00576159 /* RNAudioRecorderPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAudioRecorderPlayer.xcodeproj; path = "../node_modules/react-native-audio-recorder-player/ios/RNAudioRecorderPlayer.xcodeproj"; sourceTree = "<group>"; };
+		993CC7762A31D5260074A9DE /* RNAudioRecorderPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RNAudioRecorderPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F967B34BFB847F5AB5E8E78 /* index.html */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = index.html; path = ../src/assets/xforms/index.html; sourceTree = "<group>"; };
 		A35BE9BE164E4BBBA99DAD01 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		BFEFF1B1953BDAEE8EDBC7C8 /* Pods-lukimgather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lukimgather.debug.xcconfig"; path = "Target Support Files/Pods-lukimgather/Pods-lukimgather.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +154,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				993CC7762A31D5260074A9DE /* RNAudioRecorderPlayer.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				C9FB17ECF3BF5317D8456E3A /* Pods_lukimgather.framework */,
 				0FC5386F7C3D90737780D081 /* Pods_lukimgather_lukimgatherTests.framework */,
@@ -155,6 +165,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				993398662A31C96D00576159 /* RNAudioRecorderPlayer.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -180,6 +191,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* lukimgather.app */,
 				00E356EE1AD99517003FC87E /* lukimgatherTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		993398672A31C96D00576159 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9933986B2A31C96D00576159 /* libRNAudioRecorderPlayer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,6 +300,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 993398672A31C96D00576159 /* Products */;
+					ProjectRef = 993398662A31C96D00576159 /* RNAudioRecorderPlayer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* lukimgather */,
@@ -288,6 +313,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9933986B2A31C96D00576159 /* libRNAudioRecorderPlayer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNAudioRecorderPlayer.a;
+			remoteRef = 9933986A2A31C96D00576159 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -603,10 +638,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = lukimgather/lukimgather.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iphone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 14;
-				DEVELOPMENT_TEAM = 556BT62THH;
+				DEVELOPMENT_TEAM = "556BT62THH";
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = lukimgather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -656,7 +691,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

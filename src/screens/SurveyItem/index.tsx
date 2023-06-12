@@ -48,6 +48,8 @@ import {
 } from 'services/gql/queries';
 import {UPDATE_NUM_DAYS} from 'utils/config';
 import Toast from 'utils/toast';
+import {getErrorMessage} from 'utils/error';
+import sentimentName from 'utils/sentimentName';
 
 import {WEBSITE_HOST_URL} from '@env';
 
@@ -61,9 +63,6 @@ import type {
     DeleteHappeningSurveyMutation,
     DeleteHappeningSurveyMutationVariables,
 } from '@generated/types';
-
-import {getErrorMessage} from 'utils/error';
-import sentimentName from 'utils/sentimentName';
 
 import cs from '@rna/utils/cs';
 
@@ -310,7 +309,6 @@ const SurveyItem = () => {
     const onClickExportImage = useCallback(async () => {
         try {
             await viewShotRef.current.capture().then(async (uri: any) => {
-                console.log(uri);
                 if (Platform.OS === 'android') {
                     const granted = getPermissionAndroid();
                     if (!granted) {
@@ -401,7 +399,7 @@ const SurveyItem = () => {
                                 : '',
                             attachment:
                                 surveyHistoryItem?.serializedData?.fields?.attachment
-                                    ?.map?.(a => a.media)
+                                    ?.map?.((a: any) => a.media)
                                     .join(', '),
                         });
                     },
@@ -453,9 +451,7 @@ const SurveyItem = () => {
             });
         }
         const csv = jsonToCSV(dt, config);
-        const fileName = `${
-            surveyData?.title || 'UntitledSurvey'
-        }_${Date.now()}.csv`;
+        const fileName = `${'survey' || 'UntitledSurvey'}_${Date.now()}.csv`;
         const path = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
         RNFetchBlob.fs.writeFile(path, csv, 'utf8').then(() => {
             if (Platform.OS === 'android') {

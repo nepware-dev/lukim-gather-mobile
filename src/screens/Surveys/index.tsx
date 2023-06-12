@@ -18,6 +18,7 @@ import {format} from 'date-fns';
 import SurveyItem from 'components/SurveyItem';
 import EmptyListMessage from 'components/EmptyListMessage';
 import ExportActions from 'components/ExportActions';
+import HomeHeader from 'components/HomeHeader';
 
 import useQuery from 'hooks/useQuery';
 
@@ -27,13 +28,12 @@ import sentimentName from 'utils/sentimentName';
 import Toast from 'utils/toast';
 import {_} from 'services/i18n';
 import {GET_HAPPENING_SURVEY} from 'services/gql/queries';
-import {HappeningSurveyType} from '@generated/types';
-
-import type {ProjectType} from '@generated/types';
 import type {LocalCategoryType} from 'services/data/surveyCategory';
 
+import {HappeningSurveyType} from '@generated/types';
+import type {ProjectType} from '@generated/types';
+
 import styles from './styles';
-import HomeHeader from 'components/HomeHeader';
 
 type KeyExtractor = (item: HappeningSurveyType, index: number) => string;
 const keyExtractor: KeyExtractor = item => item.id.toString();
