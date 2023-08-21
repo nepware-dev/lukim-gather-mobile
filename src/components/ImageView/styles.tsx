@@ -8,6 +8,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F0F3F7',
+        paddingVertical: 25,
     },
     images: {
         borderRadius: 8,
