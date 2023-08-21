@@ -24,6 +24,7 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import {Icon} from 'react-native-eva-icons';
 import RNFetchBlob, {RNFetchBlobFile} from 'rn-fetch-blob';
+import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 
 import Button from 'components/Button';
 import Modal from 'components/Modal';
@@ -69,7 +70,7 @@ const dirs = RNFetchBlob.fs.dirs;
 const extension = Platform.OS === 'android' ? 'mp4' : 'm4a';
 const fileName = `survey_recording_${Date.now()}.${extension}`;
 const path = Platform.select({
-    ios: `${dirs.CacheDir}/${fileName}`,
+    ios: fileName,
     android: `${dirs.CacheDir}/${fileName}`,
 });
 
@@ -113,6 +114,16 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
         }
     }, []);
 
+    const getPermissionIOS = useCallback(async () => {
+        await requestMultiple([PERMISSIONS.IOS.MICROPHONE]).then(res => {
+            if (res['ios.permission.MICROPHONE'] === 'blocked') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }, []);
+
     const recordAudio = useCallback(async () => {
         if (!isRecording) {
             return;
@@ -126,6 +137,10 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
                 }
             }
 
+            if (Platform.OS === 'ios') {
+                await getPermissionIOS();
+            }
+
             const audioSet: AudioSet = {
                 AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
                 AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -136,11 +151,10 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
             };
 
             const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
-            const audioInfo = await RNFetchBlob.fs.stat(uri);
             setAudioFile({
                 path: uri,
                 mime: 'audio/mpeg',
-                name: audioInfo.filename,
+                name: fileName,
             });
 
             audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
@@ -152,7 +166,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
             console.warn(error);
             return false;
         }
-    }, [getPermissionAndroid, isRecording]);
+    }, [getPermissionAndroid, getPermissionIOS, isRecording]);
 
     useEffect(() => {
         if (!isRecording) {

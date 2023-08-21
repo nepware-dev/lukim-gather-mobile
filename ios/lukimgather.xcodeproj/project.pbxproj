@@ -572,7 +572,7 @@
 				CODE_SIGN_ENTITLEMENTS = lukimgather/lukimgather.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 556BT62THH;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
@@ -605,7 +605,7 @@
 				CODE_SIGN_ENTITLEMENTS = lukimgather/lukimgather.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 556BT62THH;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = lukimgather/Info.plist;
