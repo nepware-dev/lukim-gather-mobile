@@ -182,6 +182,27 @@ const Comment: React.FC<Props> = ({surveyId, commentItem, refetch}) => {
         [isAuthenticated, user],
     );
 
+    const handleDeleteClick = useCallback(() => {
+        setIsOpenCommentAction(false);
+        setTimeout(() => {
+            setOpenConfirmDelete(true);
+        }, 350);
+    }, []);
+
+    const handleCancelDelete = useCallback(() => {
+        setOpenConfirmDelete(false);
+        setTimeout(() => {
+            setIsOpenCommentAction(true);
+        }, 350);
+    }, []);
+
+    const handleEditClick = useCallback(() => {
+        setIsOpenCommentAction(false);
+        setTimeout(() => {
+            setIsOpenEditInput(true);
+        }, 350);
+    }, []);
+
     const handleDeleteConfirm = useCallback(() => {
         setIsOpenCommentAction(false);
         setOpenConfirmDelete(false);
@@ -230,13 +251,8 @@ const Comment: React.FC<Props> = ({surveyId, commentItem, refetch}) => {
                 onBackdropPress={() =>
                     setIsOpenCommentAction(!isOpenCommentAction)
                 }
-                onClickDeleteComment={() =>
-                    setOpenConfirmDelete(!openConfirmDelete)
-                }
-                onClickEditComment={() => {
-                    setIsOpenCommentAction(false);
-                    setIsOpenEditInput(true);
-                }}
+                onClickDeleteComment={handleDeleteClick}
+                onClickEditComment={handleEditClick}
             />
             <ConfirmBox
                 headerText={_('Delete?')}
@@ -244,7 +260,7 @@ const Comment: React.FC<Props> = ({surveyId, commentItem, refetch}) => {
                     'Are you sure you want to delete this comment ?',
                 )}
                 isOpen={openConfirmDelete}
-                onCancel={() => setOpenConfirmDelete(false)}
+                onCancel={handleCancelDelete}
                 positiveText={_('DELETE')}
                 onPositive={handleDeleteConfirm}
             />
