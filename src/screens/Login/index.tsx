@@ -1,7 +1,7 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useMutation} from '@apollo/client';
 import {TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import parsePhoneNumber from 'libphonenumber-js';
 
@@ -36,6 +36,20 @@ const Login = () => {
     const [password, setPassword] = useState<string>('');
     const [selectedTab, setSelectedTab] = useState<string>('email');
 
+    const clearForm = useCallback(() => {
+        setPhone('');
+        setUsername('');
+        setPassword('');
+    }, []);
+
+    useEffect(() => {
+        if (selectedTab) {
+            clearForm();
+        }
+    }, [clearForm, selectedTab]);
+
+    useFocusEffect(clearForm);
+
     const navigation =
         useNavigation<
             StackNavigationProp<StackParamList & AuthStackParamList>
@@ -49,7 +63,7 @@ const Login = () => {
             const {token, refreshToken, user} =
                 data.tokenAuth as CustomObtainJsonWebToken;
             dispatchLogin(token, refreshToken, user);
-            navigation.navigate('Feed', {
+            navigation.replace('Feed', {
                 screen: 'Home',
                 params: {screen: 'HomeScreen'},
             });

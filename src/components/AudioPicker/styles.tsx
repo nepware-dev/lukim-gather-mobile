@@ -69,7 +69,7 @@ export default StyleSheet.create({
     },
     text: {
         color: COLORS.black,
-        fontWeight: '600',
+        fontFamily: 'Inter-SemiBold',
         lineHeight: 20,
         fontSize: 16,
         marginTop: 24,
