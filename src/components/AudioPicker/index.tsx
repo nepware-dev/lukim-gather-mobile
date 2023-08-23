@@ -115,13 +115,19 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
     }, []);
 
     const getPermissionIOS = useCallback(async () => {
-        await requestMultiple([PERMISSIONS.IOS.MICROPHONE]).then(res => {
-            if (res['ios.permission.MICROPHONE'] === 'blocked') {
-                return false;
-            } else {
-                return true;
-            }
-        });
+        try {
+            await requestMultiple([PERMISSIONS.IOS.MICROPHONE]).then(res => {
+                if (res['ios.permission.MICROPHONE'] === 'blocked') {
+                    Toast.error(_('Permission required'));
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        } catch (err) {
+            console.warn(err);
+            return false;
+        }
     }, []);
 
     const recordAudio = useCallback(async () => {

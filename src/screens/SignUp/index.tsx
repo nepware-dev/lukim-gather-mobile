@@ -1,8 +1,8 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useMutation} from '@apollo/client';
 import {TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import parsePhoneNumber from 'libphonenumber-js';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -37,6 +37,23 @@ const SignUp = () => {
         {label: 'Other', value: 'OTHER'},
         {label: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY'},
     ]);
+
+    const clearForm = useCallback(() => {
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPassword('');
+        setSelectedGender('MALE');
+        setPhone('');
+    }, []);
+
+    useEffect(() => {
+        if (selectedTab) {
+            clearForm();
+        }
+    }, [clearForm, selectedTab]);
+
+    useFocusEffect(clearForm);
 
     const [signup, {loading}] = useMutation(SIGNUP, {
         onCompleted: () => {
