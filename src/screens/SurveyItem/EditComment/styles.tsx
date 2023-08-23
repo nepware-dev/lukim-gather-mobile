@@ -14,14 +14,16 @@ export default StyleSheet.create({
         backgroundColor: COLORS.white,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
-        paddingHorizontal: 4,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
     },
     inputContainer: {
         flex: 1,
-        padding: 8,
     },
     input: {
-        height: 'auto',
+        height: 45,
+        marginTop: 0,
+        lineHeight: 26,
     },
     icon: {
         marginTop: 30,
