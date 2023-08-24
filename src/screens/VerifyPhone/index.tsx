@@ -41,7 +41,7 @@ const VerifyPhone = () => {
             const {token, refreshToken, user} =
                 data.phoneNumberVerify as PhoneNumberConfirmVerify;
             dispatchLogin(token as string, refreshToken as string, user);
-            Toast.show(_('Sucessfully verified phone!'));
+            Toast.show(_('Successfully verified phone!'));
             navigation.replace('Feed', {
                 screen: 'Home',
                 params: {screen: 'HomeScreen'},

@@ -209,9 +209,6 @@ const SurveyItem = () => {
         DeleteHappeningSurveyMutation,
         DeleteHappeningSurveyMutationVariables
     >(DELETE_HAPPENING_SURVEY, {
-        onCompleted: () => {
-            Toast.show('Happening survey deleted successfully!');
-        },
         onError: err => {
             Toast.error(_('Error!'), getErrorMessage(err));
             console.log('Delete happening survey', err);
@@ -274,7 +271,9 @@ const SurveyItem = () => {
                         },
                         variables: {ordering: '-modified_at'},
                     });
-                    navigation.navigate('Feed', {screen: 'Home'});
+                    navigation.navigate('Surveys', {
+                        deleted: true,
+                    });
                 } catch (e) {
                     console.log('Error on deleting happening survey !!!', e);
                 }

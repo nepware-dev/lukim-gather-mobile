@@ -9,7 +9,11 @@ import {
     Linking,
 } from 'react-native';
 import {RootStateOrAny, useSelector} from 'react-redux';
-import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {
+    useFocusEffect,
+    useNavigation,
+    useRoute,
+} from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -43,6 +47,7 @@ const Surveys = () => {
     const {user} = useSelector((state: RootStateOrAny) => state.auth);
 
     const route = useRoute<any>();
+    const navigation = useNavigation<any>();
 
     const {loading, data, refetch} = useQuery(GET_HAPPENING_SURVEY, {
         variables: {
@@ -57,10 +62,26 @@ const Surveys = () => {
         setIsOpenExport(!isOpenExport);
     }, [isOpenExport]);
 
-    const handleRefresh = useCallback(() => {
-        refetch();
-    }, [refetch]);
-    useFocusEffect(handleRefresh);
+    const handleRefresh = useCallback(async () => {
+        let refreshing = true;
+        try {
+            await refetch();
+            refreshing = false;
+        } catch (err) {
+            refreshing = false;
+            console.log(err);
+        }
+        if (!refreshing && route?.params?.deleted) {
+            Toast.show('Happening survey deleted successfully!');
+            navigation.setParams({deleted: false});
+        }
+    }, [navigation, refetch, route?.params?.deleted]);
+
+    useFocusEffect(
+        useCallback(() => {
+            handleRefresh();
+        }, [handleRefresh]),
+    );
 
     const [categoryFilterId, setCategoryFilterId] = useState<
         null | LocalCategoryType['id']
