@@ -216,7 +216,6 @@ const AppNavigator = () => {
                 options={{
                     headerLeft: () => <CloseButton />,
                     headerTitle: '',
-                    presentation: 'modal',
                 }}
             />
             <Stack.Screen
