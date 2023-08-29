@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
-import {Image, ScrollView, View, Platform, Switch} from 'react-native';
+import {Image, View, Platform, Switch} from 'react-native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
 import {
     useFocusEffect,
@@ -15,6 +15,7 @@ import uuid from 'react-native-uuid';
 import Geolocation from 'react-native-geolocation-service';
 import {RNFetchBlobFile} from 'rn-fetch-blob';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import turfDistance from '@turf/distance';
 import turfCentroid from '@turf/centroid';
@@ -409,7 +410,7 @@ const CreateHappeningSurvey = () => {
     }, [navigation, closeEntries]);
 
     return (
-        <ScrollView
+        <KeyboardAwareScrollView
             style={styles.container}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.contentContainer}>
@@ -592,7 +593,7 @@ const CreateHappeningSurvey = () => {
                 onToggleModal={toggleOpenCategory}
                 isOpen={openCategory}
             />
-        </ScrollView>
+        </KeyboardAwareScrollView>
     );
 };
 
