@@ -394,8 +394,10 @@ export const Audio: React.FC<AudioProps> = ({
                         />
                     </TouchableOpacity>
                     <Text style={styles.audioTitle}>
-                        {audio?.name ||
-                            audio?.substring(audio.lastIndexOf('/') + 1)}
+                        {audio?.name?.substring(0, 28) ||
+                            audio
+                                ?.substring(audio.lastIndexOf('/') + 1)
+                                .substring(0, 28)}
                     </Text>
                 </View>
                 {!isStatic && (

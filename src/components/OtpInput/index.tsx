@@ -6,7 +6,7 @@ import React, {
     createRef,
     forwardRef,
 } from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Platform} from 'react-native';
 
 import COLORS from 'utils/colors';
 
@@ -67,7 +67,9 @@ const OtpInput: React.FC<OtpInputProps> = ({setCode, length}) => {
     );
 
     useEffect(() => {
-        refs[0]?.current?.focus();
+        if (Platform.OS === 'android') {
+            refs[0]?.current?.focus();
+        }
     }, [refs]);
 
     const handleChange = useCallback(

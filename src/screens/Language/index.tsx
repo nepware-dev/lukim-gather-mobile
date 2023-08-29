@@ -50,7 +50,7 @@ const Language = () => {
         code => {
             changeLanguage(code);
             dispatchLocale(code);
-            navigation.goBack();
+            navigation.navigate('Feed', {screen: 'Menu'});
         },
         [changeLanguage, navigation],
     );
