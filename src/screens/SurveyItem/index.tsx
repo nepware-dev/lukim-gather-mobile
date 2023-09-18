@@ -28,7 +28,7 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import ImageView from 'components/ImageView';
 import {Loader} from 'components/Loader';
-import {OptionIcon} from 'components/HeaderButton';
+import {CloseButton, OptionIcon} from 'components/HeaderButton';
 import ProjectInput from 'components/ProjectInput';
 import SurveyActions from 'components/SurveyActions';
 import SurveyReview from 'components/SurveyReview';
@@ -494,6 +494,11 @@ const SurveyItem = () => {
         }
     }, [surveyData]);
 
+    const handleCloseModal = useCallback(
+        () => navigation.navigate('Surveys'),
+        [navigation],
+    );
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -512,6 +517,7 @@ const SurveyItem = () => {
                 </View>
             ),
             headerTitle: isOwnerUser ? _('My entry') : _('Public entry'),
+            headerLeft: () => <CloseButton onClose={handleCloseModal} />,
         });
     }, [
         navigation,
@@ -519,6 +525,7 @@ const SurveyItem = () => {
         isOwnerUser,
         toggleOpenActions,
         toggleExportModal,
+        handleCloseModal,
     ]);
 
     return (
@@ -612,7 +619,7 @@ const SurveyItem = () => {
                             }
                         />
                     </View>
-                    {surveyData?.sentiment.length > 0 && (
+                    {surveyData?.sentiment?.length > 0 && (
                         <>
                             <Header title={_('Feels')} />
                             <View style={styles.content}>
