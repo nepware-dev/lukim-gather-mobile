@@ -8,13 +8,13 @@ import {
     Linking,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import MapboxGL from '@rnmapbox/maps';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Geolocation from 'react-native-geolocation-service';
 import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import turfCentroid from '@turf/centroid';
 import {format} from 'date-fns';

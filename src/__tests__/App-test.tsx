@@ -152,7 +152,7 @@ jest.mock('react-native-webview', () => {
     };
 });
 
-jest.mock('react-native-static-server', () => {
+jest.mock('@dr.pogodin/react-native-static-server', () => {
     return jest.fn().mockImplementation(() => ({
         start: jest.fn(),
         stop: jest.fn(),
@@ -210,7 +210,7 @@ jest.mock('react-native-view-shot', () => {
     return {};
 });
 
-jest.mock('rn-fetch-blob', () => {
+jest.mock('react-native-blob-util', () => {
     return {
         fs: {
             DocumentDir: '',
@@ -247,7 +247,7 @@ jest.mock('react-native-siren', () => {
     return {};
 });
 
-jest.mock('react-native-device-info', () => ({}));
+jest.mock('react-native-device-info', () => mockRNDeviceInfo);
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 

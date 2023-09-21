@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import type {Expression, Anchor} from '@react-native-mapbox-gl/maps';
+import type {Expression, Anchor} from '@rnmapbox/maps';
 
 import COLORS from 'utils/colors';
 

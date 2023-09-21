@@ -13,7 +13,7 @@ import {Image as ImageObj} from 'react-native-image-crop-picker';
 import {Icon} from 'react-native-eva-icons';
 import uuid from 'react-native-uuid';
 import Geolocation from 'react-native-geolocation-service';
-import {RNFetchBlobFile} from 'rn-fetch-blob';
+import {RNFetchBlobFile} from 'react-native-blob-util';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 

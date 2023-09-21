@@ -4,8 +4,8 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 
 import {WebView} from 'react-native-webview';
-import StaticServer from 'react-native-static-server';
-import RNFS from 'react-native-fs';
+import StaticServer from '@dr.pogodin/react-native-static-server';
+import * as RNFS from '@dr.pogodin/react-native-fs';
 import {useMutation} from '@apollo/client';
 import {XMLParser} from 'fast-xml-parser';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -126,9 +126,11 @@ const WebViewForm: React.FC = () => {
                 Platform.OS === 'ios'
                     ? RNFS.MainBundlePath + '/xforms'
                     : RNFS.DocumentDirectoryPath + '/custom/';
-            server = new StaticServer(8080, path, {
-                keepAlive: true,
-                localOnly: true,
+            server = new StaticServer({
+                fileDir: path,
+                port: 8080,
+                hostname: '127.0.0.1',
+                stopInBackground: false,
             });
             await server.start();
             setUri(server._origin);
