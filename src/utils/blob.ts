@@ -1,5 +1,5 @@
 import {Platform} from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import uuid from 'react-native-uuid';
 
 export const b64toPath = async (_dataURI: string) => {

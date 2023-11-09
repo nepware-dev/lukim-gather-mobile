@@ -3,14 +3,14 @@ module.exports = {
     moduleNameMapper: {
         '^d3-(.*)$': 'd3-$1/dist/d3-$1',
     },
-    setupFilesAfterEnv: ['@react-native-mapbox-gl/maps/setup-jest'],
+    setupFilesAfterEnv: ['@rnmapbox/maps/setup-jest'],
     setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
     transformIgnorePatterns: [
         'node_modules/(?!(@react-native|react-native' +
             '|@react-navigation' +
             '|react-native-gesture-handler' +
             '|react-native-linear-gradient' +
-            '|@react-native-mapbox-gl' +
+            '|@rnmapbox' +
             '|react-native-image-crop-picker' +
             '|react-native-reanimated' +
             '|react-native-modal' +
@@ -27,7 +27,7 @@ module.exports = {
             '|react-native-view-shot' +
             '|@react-native-camera-roll/camera-roll' +
             '|react-native-device-info' +
-            '|rn-fetch-blob' +
+            '|react-native-blob-util' +
             '|react-native-audio-recorder-player' +
             '|@notifee/react-native' +
             '|react-native-toast-message' +

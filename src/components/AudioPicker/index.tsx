@@ -23,7 +23,7 @@ import DocumentPicker, {
     types,
 } from 'react-native-document-picker';
 import {Icon} from 'react-native-eva-icons';
-import RNFetchBlob, {RNFetchBlobFile} from 'rn-fetch-blob';
+import RNFetchBlob, {RNFetchBlobFile} from 'react-native-blob-util';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 
 import Button from 'components/Button';

@@ -16,7 +16,7 @@ import {
 } from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import {format} from 'date-fns';
 
 import SurveyItem from 'components/SurveyItem';

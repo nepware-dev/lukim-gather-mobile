@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {View, Image, Alert} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import MapboxGL from '@rnmapbox/maps';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Geolocation from 'react-native-geolocation-service';
 

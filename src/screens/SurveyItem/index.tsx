@@ -18,7 +18,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import {Icon} from 'react-native-eva-icons';
 import {differenceInDays, formatDistanceToNowStrict, format} from 'date-fns';
 import Clipboard from '@react-native-clipboard/clipboard';

@@ -1,5 +1,5 @@
 import React from 'react';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import MapboxGL from '@rnmapbox/maps';
 
 import riversSource from 'assets/map/rivers.json';
 import oceanSource from 'assets/map/ocean.json';
