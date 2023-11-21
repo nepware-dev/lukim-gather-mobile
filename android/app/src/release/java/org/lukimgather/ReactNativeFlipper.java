@@ -5,7 +5,6 @@
  * directory of this source tree.
  */
 package org.lukimgather;
-
 import android.content.Context;
 import com.facebook.react.ReactInstanceManager;
 /**

@@ -19,5 +19,7 @@ module.exports = {
     resolver: {
         ...defaultResolver,
         sourceExts: [...defaultResolver.sourceExts, 'cjs'],
+	resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
+        unstable_enablePackageExports: true,
     },
 };

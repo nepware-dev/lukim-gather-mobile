@@ -2,7 +2,17 @@ import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {View, Image, Alert} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import MapboxGL from '@rnmapbox/maps';
+import Mapbox, {
+    MapView,
+    Camera,
+    FillLayer,
+    SymbolLayer,
+    CircleLayer,
+    ShapeSource,
+    PointAnnotation,
+    offlineManager,
+    Images,
+} from '@rnmapbox/maps';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -28,7 +38,7 @@ import DrawPolygonIcon from '../Map/Icon/DrawPolygon';
 import MarkerIcon from '../Map/Icon/Marker';
 import styles, {mapStyles} from './styles';
 
-MapboxGL.setAccessToken(MAPBOX_ACCESS_TOKEN);
+Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 interface Props {
     showCluster?: boolean;
@@ -56,13 +66,13 @@ const Map: React.FC<Props> = ({
     const manageOffline = useCallback(
         async packName => {
             try {
-                const offlinePack = await MapboxGL.offlineManager.getPack(
+                const offlinePack = await offlineManager.getPack(
                     packName,
                 );
                 if (!offlinePack) {
                     if (netInfo.isInternetReachable) {
                         setIsOffline(false);
-                        return MapboxGL.offlineManager.createPack({
+                        return offlineManager.createPack({
                             name: packName,
                             styleURL: 'mapbox://styles/mapbox/streets-v11',
                             minZoom: 0,
@@ -83,10 +93,10 @@ const Map: React.FC<Props> = ({
         [netInfo],
     );
 
-    const mapRef = useRef() as React.MutableRefObject<MapboxGL.MapView>;
-    const mapCameraRef = useRef() as React.MutableRefObject<MapboxGL.Camera>;
+    const mapRef = useRef() as React.MutableRefObject<MapView>;
+    const mapCameraRef = useRef() as React.MutableRefObject<Camera>;
     const shapeSourceRef =
-        useRef() as React.MutableRefObject<MapboxGL.ShapeSource>;
+        useRef() as React.MutableRefObject<ShapeSource>;
     const [currentLocation, setCurrentLocation] = useState<
         number[] | undefined
     >([147.17972, -9.44314]);
@@ -181,7 +191,7 @@ const Map: React.FC<Props> = ({
 
     const renderAnnotation = useCallback(() => {
         return (
-            <MapboxGL.PointAnnotation
+            <PointAnnotation
                 id="marker"
                 coordinate={currentLocation as number[]}
                 anchor={{x: 0.5, y: 0.9}}>
@@ -192,7 +202,7 @@ const Map: React.FC<Props> = ({
                         <View style={styles.markerDotInner} />
                     </View>
                 </View>
-            </MapboxGL.PointAnnotation>
+            </PointAnnotation>
         );
     }, [currentLocation]);
 
@@ -207,23 +217,23 @@ const Map: React.FC<Props> = ({
 
         if (polygonPoint.length > 0) {
             return (
-                <MapboxGL.ShapeSource
+                <ShapeSource
                     id="polygonSource"
                     shape={
                         polygonGeoJSON as Feature<Geometry, GeoJsonProperties>
                     }>
-                    <MapboxGL.FillLayer
+                    <FillLayer
                         id="polygonFill"
                         style={mapStyles.polygonFill}
                     />
                     {polygonPoint.map((_, index) => (
-                        <MapboxGL.CircleLayer
+                        <CircleLayer
                             key={index}
                             id={'point-' + index}
                             style={mapStyles.pointCircle}
                         />
                     ))}
-                </MapboxGL.ShapeSource>
+                </ShapeSource>
             );
         }
     }, [polygonPoint]);
@@ -277,8 +287,8 @@ const Map: React.FC<Props> = ({
 
         return (
             <>
-                <MapboxGL.Images images={categoryIcons} />
-                <MapboxGL.ShapeSource
+                <Images images={categoryIcons} />
+                <ShapeSource
                     id="surveyPolySource"
                     shape={
                         surveyPolyGeoJSON as FeatureCollection<
@@ -286,21 +296,21 @@ const Map: React.FC<Props> = ({
                             GeoJsonProperties
                         >
                     }>
-                    <MapboxGL.SymbolLayer
+                    <SymbolLayer
                         id="polyTitle"
                         style={mapStyles.polyTitle}
                         belowLayerID="singlePoint"
                         filter={['all', showCluster]}
                     />
-                    <MapboxGL.FillLayer
+                    <FillLayer
                         id="polygon"
                         sourceLayerID="surveyPolySource"
                         belowLayerID="polyTitle"
                         style={mapStyles.polygon}
                         filter={['all', showCluster]}
                     />
-                </MapboxGL.ShapeSource>
-                <MapboxGL.ShapeSource
+                </ShapeSource>
+                <ShapeSource
                     ref={shapeSourceRef}
                     id="surveySource"
                     cluster
@@ -310,18 +320,18 @@ const Map: React.FC<Props> = ({
                             GeoJsonProperties
                         >
                     }>
-                    <MapboxGL.SymbolLayer
+                    <SymbolLayer
                         id="pointCount"
                         style={mapStyles.pointCount}
                         filter={['all', ['has', 'point_count'], showCluster]}
                     />
-                    <MapboxGL.CircleLayer
+                    <CircleLayer
                         id="circles"
                         style={mapStyles.clusterPoints}
                         filter={['all', ['has', 'point_count'], showCluster]}
                         belowLayerID="pointCount"
                     />
-                    <MapboxGL.SymbolLayer
+                    <SymbolLayer
                         id="singlePoint"
                         style={mapStyles.singlePoint}
                         filter={[
@@ -331,7 +341,7 @@ const Map: React.FC<Props> = ({
                         ]}
                         belowLayerID="circles"
                     />
-                    <MapboxGL.SymbolLayer
+                    <SymbolLayer
                         id="iconBackground"
                         style={mapStyles.marker}
                         filter={[
@@ -341,7 +351,7 @@ const Map: React.FC<Props> = ({
                         ]}
                         belowLayerID="singlePoint"
                     />
-                </MapboxGL.ShapeSource>
+                </ShapeSource>
             </>
         );
     }, [surveyData, showCluster]);
@@ -382,7 +392,7 @@ const Map: React.FC<Props> = ({
     return (
         <View style={styles.page}>
             <View style={styles.container}>
-                <MapboxGL.MapView
+                <MapView
                     ref={mapRef}
                     style={styles.map}
                     onRegionDidChange={onRegionDidChange}
@@ -390,7 +400,7 @@ const Map: React.FC<Props> = ({
                     styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 30, y: 150}}
                     onPress={handleMapPress}>
-                    <MapboxGL.Camera
+                    <Camera
                         defaultSettings={{
                             centerCoordinate: currentLocation,
                             zoomLevel: 5,
@@ -403,7 +413,7 @@ const Map: React.FC<Props> = ({
                     {showMarker && renderAnnotation()}
                     {pickLocation === 'Draw polygon' && renderPolygon()}
                     <UserLocation visible={true} />
-                </MapboxGL.MapView>
+                </MapView>
             </View>
             <View style={cs(styles.locationBar, locationBarStyle)}>
                 <TouchableOpacity
