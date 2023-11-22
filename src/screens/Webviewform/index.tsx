@@ -22,12 +22,13 @@ import {
     CreateWritableSurveyMutation,
     CreateWritableSurveyMutationVariables,
 } from '@generated/types';
+import type {ProjectType} from '@generated/types';
+
 import {CREATE_WRITABLE_SURVEY, UPLOAD_IMAGE} from 'services/gql/queries';
 import {getErrorMessage} from 'utils/error';
 import {b64toPath} from 'utils/blob';
 import Toast from 'utils/toast';
-
-import type {ProjectType} from '@generated/types';
+import {formatFormAnswers} from 'utils/formatAnswers';
 
 export type FormDataType = {
     data?: string;
@@ -156,6 +157,7 @@ const WebViewForm: React.FC = () => {
         setProcessing(true);
         const parser = new XMLParser({
             attributeNamePrefix: '_',
+            preserveOrder: true,
         });
         const title = formObj.title;
         const optimisticResponse = {
@@ -167,11 +169,15 @@ const WebViewForm: React.FC = () => {
                 title,
             },
         };
+        const formAnswerArrayJSON = JSON.stringify(parser.parse(FORMDATA));
         await createWritableSurvey({
             variables: {
                 input: {
                     title,
-                    answer: JSON.stringify(parser.parse(FORMDATA)),
+                    answer: JSON.stringify({
+                        data: formatFormAnswers({answer: formAnswerArrayJSON}),
+                    }),
+                    answerSorted: formAnswerArrayJSON,
                 },
             },
             optimisticResponse,
