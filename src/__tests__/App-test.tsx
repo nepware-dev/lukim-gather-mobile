@@ -160,7 +160,7 @@ jest.mock('@dr.pogodin/react-native-static-server', () => {
     }));
 });
 
-jest.mock('react-native-fs', () => {
+jest.mock('@dr.pogodin/react-native-fs', () => {
     return {
         mkdir: jest.fn(),
         moveFile: jest.fn(),

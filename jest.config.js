@@ -1,7 +1,7 @@
 module.exports = {
     preset: 'react-native',
     moduleNameMapper: {
-        '^d3-(.*)$': 'd3-$1/dist/d3-$1',
+        '^d3-(.*)$': '<rootDir>/node_modules/d3-$1/dist/d3-$1.js',
     },
     setupFilesAfterEnv: ['@rnmapbox/maps/setup-jest'],
     setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
@@ -31,6 +31,7 @@ module.exports = {
             '|react-native-audio-recorder-player' +
             '|@notifee/react-native' +
             '|react-native-toast-message' +
+            '|sp-react-native-in-app-updates' +
             ')/)',
     ],
     testPathIgnorePatterns: ['src/vendor', 'node_modules'],

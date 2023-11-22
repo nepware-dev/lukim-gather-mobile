@@ -1,5 +1,5 @@
 import React from 'react';
-import MapboxGL from '@rnmapbox/maps';
+import Mapbox from '@rnmapbox/maps';
 
 interface UserLocationProps {
     visible: boolean;
@@ -7,7 +7,7 @@ interface UserLocationProps {
 
 export const UserLocation = ({visible}: UserLocationProps) => {
     return (
-        <MapboxGL.UserLocation
+        <Mapbox.UserLocation
             visible={visible}
             renderMode="native"
             androidRenderMode="compass"

@@ -1,5 +1,5 @@
 import React from 'react';
-import MapboxGL from '@rnmapbox/maps';
+import Mapbox from '@rnmapbox/maps';
 
 import surveyCategory from 'services/data/surveyCategory';
 
@@ -18,7 +18,7 @@ interface Props {
     onPointPress?: (
         shape: FeatureCollection<Geometry, GeoJsonProperties>,
     ) => void;
-    shapeSourceRef: React.MutableRefObject<MapboxGL.ShapeSource>;
+    shapeSourceRef: React.MutableRefObject<Mapbox.ShapeSource>;
 }
 
 export const Cluster: React.FC<Props> = ({
@@ -74,8 +74,8 @@ export const Cluster: React.FC<Props> = ({
 
     return (
         <>
-            <MapboxGL.Images images={categoryIcons} />
-            <MapboxGL.ShapeSource
+            <Mapbox.Images images={categoryIcons} />
+            <Mapbox.ShapeSource
                 id="surveyPolySource"
                 onPress={onPolygonPress}
                 shape={
@@ -84,19 +84,19 @@ export const Cluster: React.FC<Props> = ({
                         GeoJsonProperties
                     >
                 }>
-                <MapboxGL.SymbolLayer
+                <Mapbox.SymbolLayer
                     id="polyTitle"
                     style={mapStyles.polyTitle}
                     belowLayerID="singlePoint"
                 />
-                <MapboxGL.FillLayer
+                <Mapbox.FillLayer
                     id="polygon"
                     sourceLayerID="surveyPolySource"
                     belowLayerID="polyTitle"
                     style={mapStyles.polygon}
                 />
-            </MapboxGL.ShapeSource>
-            <MapboxGL.ShapeSource
+            </Mapbox.ShapeSource>
+            <Mapbox.ShapeSource
                 ref={shapeSourceRef}
                 id="surveySource"
                 cluster
@@ -107,30 +107,30 @@ export const Cluster: React.FC<Props> = ({
                         GeoJsonProperties
                     >
                 }>
-                <MapboxGL.SymbolLayer
+                <Mapbox.SymbolLayer
                     id="pointCount"
                     style={mapStyles.pointCount}
                     filter={['has', 'point_count']}
                 />
-                <MapboxGL.CircleLayer
+                <Mapbox.CircleLayer
                     id="circles"
                     style={mapStyles.clusterPoints}
                     filter={['has', 'point_count']}
                     belowLayerID="pointCount"
                 />
-                <MapboxGL.SymbolLayer
+                <Mapbox.SymbolLayer
                     id="singlePoint"
                     style={mapStyles.singlePoint}
                     filter={['!', ['has', 'point_count']]}
                     belowLayerID="circles"
                 />
-                <MapboxGL.SymbolLayer
+                <Mapbox.SymbolLayer
                     id="iconBackground"
                     style={mapStyles.marker}
                     filter={['!', ['has', 'point_count']]}
                     belowLayerID="singlePoint"
                 />
-            </MapboxGL.ShapeSource>
+            </Mapbox.ShapeSource>
         </>
     );
 };

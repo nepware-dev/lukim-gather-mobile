@@ -8,7 +8,7 @@ import {
     Linking,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import MapboxGL from '@rnmapbox/maps';
+import Mapbox, {MapView, Camera, ShapeSource} from '@rnmapbox/maps';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Geolocation from 'react-native-geolocation-service';
@@ -43,7 +43,7 @@ import {UserLocation} from './UserLocation';
 import OfflineLayers from './OfflineLayers';
 import styles from './styles';
 
-MapboxGL.setAccessToken(MAPBOX_ACCESS_TOKEN);
+Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 interface Props {
     showCluster?: boolean;
@@ -130,13 +130,13 @@ const Map: React.FC<Props> = ({
     const manageOffline = useCallback(
         async packName => {
             try {
-                const offlinePack = await MapboxGL.offlineManager.getPack(
+                const offlinePack = await Mapbox.offlineManager.getPack(
                     packName,
                 );
                 if (!offlinePack) {
                     if (netInfo.isInternetReachable) {
                         setIsOffline(false);
-                        return MapboxGL.offlineManager.createPack({
+                        return Mapbox.offlineManager.createPack({
                             name: packName,
                             styleURL: 'mapbox://styles/mapbox/streets-v11',
                             minZoom: 0,
@@ -157,11 +157,11 @@ const Map: React.FC<Props> = ({
         [netInfo],
     );
 
-    const mapRef = useRef() as React.MutableRefObject<MapboxGL.MapView>;
+    const mapRef = useRef() as React.MutableRefObject<MapView>;
     const viewShotRef = useRef<any>();
-    const mapCameraRef = useRef() as React.MutableRefObject<MapboxGL.Camera>;
+    const mapCameraRef = useRef() as React.MutableRefObject<Camera>;
     const shapeSourceRef =
-        useRef() as React.MutableRefObject<MapboxGL.ShapeSource>;
+        useRef() as React.MutableRefObject<ShapeSource>;
 
     const [currentLocation, setCurrentLocation] = useState<
         number[] | undefined
@@ -428,14 +428,14 @@ const Map: React.FC<Props> = ({
                 />
             )}
             <ViewShot ref={viewShotRef} style={styles.container}>
-                <MapboxGL.MapView
+                <MapView
                     ref={mapRef}
                     style={styles.map}
                     onRegionDidChange={onRegionDidChange}
                     onDidFinishLoadingStyle={handleFinishMapLoad}
                     styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 20, y: hideHeader ? 20 : 170}}>
-                    <MapboxGL.Camera
+                    <Camera
                         defaultSettings={{
                             centerCoordinate: currentLocation,
                             zoomLevel: 5,
@@ -453,7 +453,7 @@ const Map: React.FC<Props> = ({
                             surveyData={selectedData}
                         />
                     )}
-                </MapboxGL.MapView>
+                </MapView>
             </ViewShot>
             <View style={cs(styles.locationBar, locationBarStyle)}>
                 <TouchableOpacity
