@@ -75,6 +75,7 @@ class MediaLink extends ApolloLink {
                 this.pendingCustomFormOperations
                     .map(op => {
                         let modifiedAnswer = op.variables.input?.answer || '';
+                        let modifiedAnswerSorted = op.variables.input?.answerSorted || '';
                         this.mediaFiles.forEach(mediaFile => {
                             if (
                                 mediaFile.media &&
@@ -84,9 +85,14 @@ class MediaLink extends ApolloLink {
                                     new RegExp(mediaFile.title, 'g'),
                                     mediaFile.media,
                                 );
+                                modifiedAnswerSorted = modifiedAnswerSorted.replace(
+                                    new RegExp(mediaFile.title, 'g'),
+                                    mediaFile.media,
+                                )
                             }
                         });
                         op.variables.input.answer = modifiedAnswer;
+                        op.variables.input.answerSorted = modifiedAnswerSorted;
                         return op;
                     })
                     .forEach(formOperation => {
