@@ -1,4 +1,4 @@
-git_url("https://github.com/nepware-dev/lukim-gather-certificates.git")
+git_url("git@github.com:nepware-dev/lukim-gather-certificates.git")
 
 storage_mode("git")
 
