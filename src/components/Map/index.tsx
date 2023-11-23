@@ -434,7 +434,8 @@ const Map: React.FC<Props> = ({
                     onRegionDidChange={onRegionDidChange}
                     onDidFinishLoadingStyle={handleFinishMapLoad}
                     styleJSON={isOffline ? mapViewStyles : ''}
-                    compassViewMargins={{x: 20, y: hideHeader ? 20 : 170}}>
+                    compassViewMargins={{x: 20, y: hideHeader ? 20 : 170}}
+                    scaleBarEnabled={false}>
                     <Camera
                         defaultSettings={{
                             centerCoordinate: currentLocation,

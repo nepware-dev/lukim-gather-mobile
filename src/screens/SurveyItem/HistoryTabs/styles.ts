@@ -18,7 +18,6 @@ export default StyleSheet.create({
         borderRadius: 32,
     },
     versionTabItem: {
-        borderRadius: 32,
         marginRight: 4,
     },
     versionTabItemActive: {
