@@ -399,7 +399,8 @@ const Map: React.FC<Props> = ({
                     onDidFinishLoadingStyle={handleFinishMapLoad}
                     styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 30, y: 150}}
-                    onPress={handleMapPress}>
+                    onPress={handleMapPress}
+                    scaleBarEnabled={false}>
                     <Camera
                         defaultSettings={{
                             centerCoordinate: currentLocation,

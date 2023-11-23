@@ -495,7 +495,7 @@ const SurveyItem = () => {
     }, [surveyData]);
 
     const handleCloseModal = useCallback(
-        () => navigation.navigate('Surveys'),
+        () => navigation.goBack(),
         [navigation],
     );
 
