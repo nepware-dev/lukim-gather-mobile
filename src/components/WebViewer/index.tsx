@@ -20,6 +20,7 @@ const WebViewer = ({
         if (event.url.startsWith('http')) {
             webview.current.stopLoading();
             Linking.openURL(event.url);
+            return false;
         }
     }, []);
 
@@ -32,7 +33,7 @@ const WebViewer = ({
             originWhitelist={['*']}
             showsVerticalScrollIndicator={false}
             source={{html: _html}}
-            onNavigationStateChange={onNavigationStateChange}
+            onShouldStartLoadWithRequest={onNavigationStateChange}
         />
     );
 };

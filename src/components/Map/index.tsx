@@ -431,7 +431,7 @@ const Map: React.FC<Props> = ({
                 <MapView
                     ref={mapRef}
                     style={styles.map}
-                    onRegionDidChange={onRegionDidChange}
+                    onMapIdle={onRegionDidChange}
                     onDidFinishLoadingStyle={handleFinishMapLoad}
                     styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 20, y: hideHeader ? 20 : 170}}

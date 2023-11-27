@@ -13,18 +13,13 @@ const helpData = `<p>
             The Lukim Gather mobile application works on smartphones and tablets, and is now available to help users map and monitor the environment. This quick-start guide will get you started. For more extensive tutorials, including videos,
             check
         </span>
-        <a href="http://www.lukimgather.org" style="text-decoration: none;">
-            <span style="color: #1155cc;"><u>www.lukimgather.org</u></span>
+        <a href="http://www.lukimgather.org">
+            <span>www.lukimgather.org</span>
         </a>
-        <span style="color: #000000;">&nbsp;</span>
     </p>
-    <ol>
-        \r\n\t
-        <li style="list-style-type: decimal;">
-            <span style="color: #000000;"><strong>Why use the Lukim Gather app?</strong></span>
-        </li>
-        \r\n
-    </ol>
+    <p>
+        <span style="color: #000000;"><strong>1. Why use the Lukim Gather app?</strong></span>
+    </p>
     <p>
         <span style="color: #000000;">
             The Lukim Gather app has been developed by UNDP to help communities in Papua New Guinea collect, store, and manage environmental data on a map. This includes information about threats - such as illegal logging or poaching, values -
@@ -38,11 +33,9 @@ const helpData = `<p>
         <li style="list-style-type: disc;"><span style="color: #000000;">Works offline on any smartphone&nbsp;</span></li>
         <li style="list-style-type: disc;"><span style="color: #000000;">Simple to use</span></li>
     </ul>
-    <ol start="2">
-        <li style="list-style-type: decimal;">
-            <span style="color: #000000;"><strong>What kind of places should I map?&nbsp;</strong></span>
-        </li>
-    </ol>
+    <p>
+        <span style="color: #000000;"><strong>2. What kind of places should I map?&nbsp;</strong></span>
+    </p>
     <p>
         <span style="color: #000000;">To assess the effectiveness of conservation areas, it is important to understand </span><span style="color: #000000;"><strong>where</strong></span>
         <span style="color: #000000;"> important features are, </span><span style="color: #000000;"><strong>what</strong></span><span style="color: #000000;"> their condition is, and </span>
@@ -52,10 +45,10 @@ const helpData = `<p>
             what information will help my community, government, and/or supporting organizations manage the area better?
         </span>
     </p>
-    <ol start="3">
-        <li style="list-style-type: decimal;">
-            <span style="color: #000000;"><strong>How To Collect &amp; Share Mapping Information Using Lukim Gather&nbsp;</strong></span>
-        </li>
+    <p>
+        <span style="color: #000000;"><strong>3. How To Collect &amp; Share Mapping Information Using Lukim Gather&nbsp;</strong></span>
+    </p>
+    <ol>
         <li style="list-style-type: decimal;">
             <span style="color: #222222;"><strong>Map out your environmental features</strong></span><span style="color: #222222;"> - Click the &lsquo;</span><span style="color: #222222;"><strong>+</strong></span>
             <span style="color: #222222;">&rsquo; icon in the center and find an icon that describes what you are mapping.</span>\r\n\t
@@ -109,11 +102,9 @@ const helpData = `<p>
             sacred sites) to conflict, then you can choose to publish data for &ldquo;Only Me&rdquo;. This means the data will only be viewable to your private user account, and cannot be shared other than through a screenshot.&nbsp;
         </span>
     </p>
-    <ol start="5">
-        <li style="list-style-type: decimal;">
-            <span style="color: #000000;"><strong>Troubleshooting - Why isn&rsquo;t the app working?&nbsp;</strong></span>
-        </li>
-    </ol>
+    <p>
+        <span style="color: #000000;"><strong>5. Troubleshooting - Why isn&rsquo;t the app working?&nbsp;</strong></span>
+    </p>
     <p><span style="color: #000000;">There are a variety of reasons why Lukim Gather might not be working well on your phone. Firstly make sure you are using the latest version of the app:&nbsp;</span></p>
     <ul>
         <li style="list-style-type: disc;">
