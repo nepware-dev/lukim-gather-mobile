@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Image} from 'react-native';
+import {Image, Keyboard} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -10,7 +10,10 @@ import styles from './styles';
 
 export const BackButton = () => {
     const navigation = useNavigation();
-    const onBackPress = useCallback(() => navigation.goBack(), [navigation]);
+    const onBackPress = useCallback(() => {
+        Keyboard.dismiss();
+        navigation.goBack();
+    }, [navigation]);
     return (
         <TouchableOpacity onPress={onBackPress} style={styles.headerIcon}>
             <Icon

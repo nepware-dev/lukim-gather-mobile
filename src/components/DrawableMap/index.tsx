@@ -24,7 +24,6 @@ import COLORS from 'utils/colors';
 
 import {HappeningSurveyType} from '@generated/types';
 import type {
-    Feature,
     FeatureCollection,
     Geometry,
     GeoJsonProperties,
@@ -207,15 +206,20 @@ const Map: React.FC<Props> = ({
     }, [currentLocation]);
 
     const renderPolygon = useCallback(() => {
-        const polygonGeoJSON = {
-            type: 'Feature',
-            geometry: {
-                type: 'LineString',
-                coordinates: [...polygonPoint],
-            },
+        const polygonGeoJSON: GeoJSON.FeatureCollection = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [[...polygonPoint, polygonPoint[0]]],
+                    },
+                },
+            ]
         };
-
-        if (polygonPoint.length > 0) {
+        if (polygonPoint?.length > 2) {
             return (
                 <ShapeSource
                     id="polygonSource"
@@ -395,7 +399,7 @@ const Map: React.FC<Props> = ({
                 <MapView
                     ref={mapRef}
                     style={styles.map}
-                    onRegionDidChange={onRegionDidChange}
+                    onMapIdle={onRegionDidChange}
                     onDidFinishLoadingStyle={handleFinishMapLoad}
                     styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 30, y: 150}}
