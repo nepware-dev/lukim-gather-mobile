@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Linking,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useMutation} from '@apollo/client';
 import {
     useNavigation,
@@ -69,6 +68,7 @@ import cs from '@rna/utils/cs';
 import Comment from './Comment';
 import HistoryTabs from './HistoryTabs';
 import styles from './styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Header = ({title}: {title: string}) => {
     return (
@@ -284,6 +284,10 @@ const SurveyItem = () => {
     const toggleExportModal = useCallback(() => {
         setIsOpenExport(!isOpenExport);
     }, [isOpenExport]);
+
+    const handleCloseExportModal = useCallback(() => {
+        setIsOpenExport(false);
+    }, []);
 
     const getPermissionAndroid = useCallback(async () => {
         try {
@@ -529,7 +533,7 @@ const SurveyItem = () => {
     ]);
 
     return (
-        <ScrollView
+        <KeyboardAwareScrollView
             style={styles.container}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={
@@ -714,7 +718,7 @@ const SurveyItem = () => {
                     />
                     <ExportActions
                         isOpenExport={isOpenExport}
-                        onBackdropPress={toggleExportModal}
+                        onBackdropPress={handleCloseExportModal}
                         onClickExportImage={onClickExportImage}
                         onClickExportCSV={onClickExportCSV}
                         onCopyLink={handleCopySurveyLink}
@@ -726,7 +730,7 @@ const SurveyItem = () => {
                     title={_('Unable to get survey data!')}
                 />
             )}
-        </ScrollView>
+        </KeyboardAwareScrollView>
     );
 };
 

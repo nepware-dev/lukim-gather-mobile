@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, useState} from 'react';
-import {View, Image, Platform} from 'react-native';
+import {View, Image, Platform, Keyboard} from 'react-native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
@@ -49,6 +49,7 @@ const EditProfile = () => {
     const [updateUser, {loading}] = useMutation(UPDATE_USER, {
         onCompleted: res => {
             Toast.show(_('Updated!'));
+            Keyboard.dismiss();
             navigation.navigate('Menu');
             dispatch(setUser(res?.updateUser?.result));
         },
@@ -108,6 +109,10 @@ const EditProfile = () => {
         [toggleImagePickerModal],
     );
 
+    const handleClosePickerModal = useCallback(() => {
+        setVisiblePickerModal(false);
+    }, [])
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => <SaveButton onSavePress={handleSavePress} />,
@@ -156,7 +161,7 @@ const EditProfile = () => {
             </KeyboardAwareScrollView>
             <ImagePickerModal
                 isVisible={visiblePickerModal}
-                onBackdropPress={toggleImagePickerModal}
+                onBackdropPress={handleClosePickerModal}
                 onChange={handleImages}
             />
         </View>
