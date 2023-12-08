@@ -62,6 +62,10 @@ const Surveys = () => {
         setIsOpenExport(!isOpenExport);
     }, [isOpenExport]);
 
+    const handleCloseExportModal = useCallback(() => {
+        setIsOpenExport(false);
+    }, [])
+
     const handleRefresh = useCallback(async () => {
         let refreshing = true;
         try {
@@ -282,7 +286,7 @@ const Surveys = () => {
             </ViewShot>
             <ExportActions
                 isOpenExport={isOpenExport}
-                onBackdropPress={toggleExportModal}
+                onBackdropPress={handleCloseExportModal}
                 onClickExportImage={onClickExportImage}
                 onClickExportCSV={onClickExportCSV}
             />

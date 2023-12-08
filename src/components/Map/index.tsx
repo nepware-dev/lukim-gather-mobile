@@ -80,6 +80,8 @@ const Map: React.FC<Props> = ({
         setIsOpenExport(!isOpenExport);
     }, [isOpenExport]);
 
+    const onCloseExportModal = useCallback(() => setIsOpenExport(false), []);
+
     const [categoryFilterId, setCategoryFilterId] = useState<
         null | LocalCategoryType['id']
     >(route?.params?.filters?.categoryFilterId || null);
@@ -468,7 +470,7 @@ const Map: React.FC<Props> = ({
             </View>
             <ExportActions
                 isOpenExport={isOpenExport}
-                onBackdropPress={toggleExportModal}
+                onBackdropPress={onCloseExportModal}
                 onClickExportImage={onClickExportImage}
                 onClickExportCSV={onClickExportCSV}
             />
