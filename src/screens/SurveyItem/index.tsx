@@ -271,9 +271,8 @@ const SurveyItem = () => {
                         },
                         variables: {ordering: '-modified_at'},
                     });
-                    navigation.navigate('Surveys', {
-                        deleted: true,
-                    });
+                    Toast.show('Happening survey deleted successfully!');
+                    navigation.navigate('Surveys');
                 } catch (e) {
                     console.log('Error on deleting happening survey !!!', e);
                 }
