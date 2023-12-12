@@ -84,16 +84,14 @@ export const Cluster: React.FC<Props> = ({
                         GeoJsonProperties
                     >
                 }>
-                <Mapbox.SymbolLayer
-                    id="polyTitle"
-                    style={mapStyles.polyTitle}
-                    belowLayerID="singlePoint"
-                />
                 <Mapbox.FillLayer
                     id="polygon"
                     sourceLayerID="surveyPolySource"
-                    belowLayerID="polyTitle"
                     style={mapStyles.polygon}
+                />
+                <Mapbox.SymbolLayer
+                    id="polyTitle"
+                    style={mapStyles.polyTitle}
                 />
             </Mapbox.ShapeSource>
             <Mapbox.ShapeSource
@@ -116,19 +114,16 @@ export const Cluster: React.FC<Props> = ({
                     id="circles"
                     style={mapStyles.clusterPoints}
                     filter={['has', 'point_count']}
-                    belowLayerID="pointCount"
                 />
                 <Mapbox.SymbolLayer
                     id="singlePoint"
                     style={mapStyles.singlePoint}
                     filter={['!', ['has', 'point_count']]}
-                    belowLayerID="circles"
                 />
                 <Mapbox.SymbolLayer
                     id="iconBackground"
                     style={mapStyles.marker}
                     filter={['!', ['has', 'point_count']]}
-                    belowLayerID="singlePoint"
                 />
             </Mapbox.ShapeSource>
         </>

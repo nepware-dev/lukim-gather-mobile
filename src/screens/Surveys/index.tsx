@@ -9,22 +9,17 @@ import {
     Linking,
 } from 'react-native';
 import {RootStateOrAny, useSelector} from 'react-redux';
-import {
-    useFocusEffect,
-    useNavigation,
-    useRoute,
-} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import RNFetchBlob from 'react-native-blob-util';
 import {format} from 'date-fns';
+import { useLazyQuery } from '@apollo/client';
 
 import SurveyItem from 'components/SurveyItem';
 import EmptyListMessage from 'components/EmptyListMessage';
 import ExportActions from 'components/ExportActions';
 import HomeHeader from 'components/HomeHeader';
-
-import useQuery from 'hooks/useQuery';
 
 import cs from '@rna/utils/cs';
 import {jsonToCSV} from 'utils';
@@ -47,9 +42,11 @@ const Surveys = () => {
     const {user} = useSelector((state: RootStateOrAny) => state.auth);
 
     const route = useRoute<any>();
-    const navigation = useNavigation<any>();
 
-    const {loading, data, refetch} = useQuery(GET_HAPPENING_SURVEY, {
+    const [data, setData] = useState<HappeningSurveyType>();
+    const [loading, setLoading] = useState(true);
+
+    const [getAllSurvey] = useLazyQuery(GET_HAPPENING_SURVEY, {
         variables: {
             ordering: '-modified_at',
         },
@@ -66,26 +63,14 @@ const Surveys = () => {
         setIsOpenExport(false);
     }, [])
 
-    const handleRefresh = useCallback(async () => {
-        let refreshing = true;
-        try {
-            await refetch();
-            refreshing = false;
-        } catch (err) {
-            refreshing = false;
-            console.log(err);
-        }
-        if (!refreshing && route?.params?.deleted) {
-            Toast.show('Happening survey deleted successfully!');
-            navigation.setParams({deleted: false});
-        }
-    }, [navigation, refetch, route?.params?.deleted]);
+    const handleRefresh = useCallback(() => {
+        getAllSurvey().then(({data}) => {
+            setData(data?.happeningSurveys);
+            setLoading(false);
+        })
+    }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            handleRefresh();
-        }, [handleRefresh]),
-    );
+    useFocusEffect(handleRefresh);
 
     const [categoryFilterId, setCategoryFilterId] = useState<
         null | LocalCategoryType['id']
@@ -108,7 +93,7 @@ const Surveys = () => {
     );
 
     const selectedData = useMemo(() => {
-        const filteredData = (data?.happeningSurveys || []).filter(
+        const filteredData = (data || []).filter(
             (el: HappeningSurveyType) => {
                 if (categoryFilterId && projectFilterId) {
                     return (
@@ -138,7 +123,7 @@ const Surveys = () => {
               )
             : filteredData;
     }, [
-        data?.happeningSurveys,
+        data,
         selectedTab,
         user?.id,
         categoryFilterId,
