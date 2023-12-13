@@ -349,7 +349,6 @@ const AppNavigator = () => {
                 component={SurveyItem}
                 options={{
                     headerTitle: _('Entries'),
-                    presentation: 'modal',
                 }}
             />
             <Stack.Screen
