@@ -105,24 +105,24 @@ export const Cluster: React.FC<Props> = ({
                         GeoJsonProperties
                     >
                 }>
-                <Mapbox.SymbolLayer
-                    id="pointCount"
-                    style={mapStyles.pointCount}
-                    filter={['has', 'point_count']}
-                />
                 <Mapbox.CircleLayer
                     id="circles"
                     style={mapStyles.clusterPoints}
                     filter={['has', 'point_count']}
                 />
                 <Mapbox.SymbolLayer
-                    id="singlePoint"
-                    style={mapStyles.singlePoint}
-                    filter={['!', ['has', 'point_count']]}
+                    id="pointCount"
+                    style={mapStyles.pointCount}
+                    filter={['has', 'point_count']}
                 />
                 <Mapbox.SymbolLayer
                     id="iconBackground"
                     style={mapStyles.marker}
+                    filter={['!', ['has', 'point_count']]}
+                />
+                <Mapbox.SymbolLayer
+                    id="singlePoint"
+                    style={mapStyles.singlePoint}
                     filter={['!', ['has', 'point_count']]}
                 />
             </Mapbox.ShapeSource>
