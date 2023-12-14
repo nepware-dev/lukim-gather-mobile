@@ -19,6 +19,7 @@ import {NotificationType} from '@generated/types';
 
 import cs from '@rna/utils/cs';
 import {_} from 'services/i18n';
+import Toast from 'utils/toast';
 
 import COLORS from 'utils/colors';
 import styles from './styles';
@@ -56,11 +57,14 @@ const Notifications = () => {
             if (item?.notificationType.startsWith('happening_survey')) {
                 getHappeningSurvey({
                     variables: {id: item.actionObjectObjectId.toString()},
-                }).then(({data: surveyItem}) =>
+                }).then(({data: surveyItem}) => {
+                    if(!surveyItem?.happeningSurveys[0]) {
+                        return Toast.error(_('Not found!'), 'Survey has been deleted !');
+                    }
                     navigation.navigate('SurveyItem', {
                         item: surveyItem?.happeningSurveys[0],
-                    }),
-                );
+                    });
+                });
             }
         },
         [getHappeningSurvey, markAsRead, navigation],
