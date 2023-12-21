@@ -1,25 +1,20 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
+ /* Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
  *
- * @format
+ * @type {import('metro-config').MetroConfig}
  */
-const {getDefaultConfig} = require('metro-config');
-const {resolver: defaultResolver} = getDefaultConfig.getDefaultValues();
+const os = require('node:os');
+const path = require('node:path');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const {getDefaultConfig: getBaseConfig} = require('metro-config');
+const {resolver: defaultResolver} = getBaseConfig.getDefaultValues();
 
-module.exports = {
-    transformer: {
-        getTransformOptions: async () => ({
-            transform: {
-                experimentalImportSupport: false,
-                inlineRequires: true,
-            },
-        }),
-    },
-    resolver: {
-        ...defaultResolver,
-        sourceExts: [...defaultResolver.sourceExts, 'cjs'],
-	resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
-        unstable_enablePackageExports: true,
-    },
+config = {
+    cacheStores: ({ FileStore }) => [
+	new FileStore({
+	    root: path.join(os.tmpdir(), 'metro-cache'),
+	}),
+    ],
 };
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
