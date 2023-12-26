@@ -75,6 +75,11 @@ export const GET_HAPPENING_SURVEY = gql`
             attachment {
                 id
                 media
+                mediaAsset {
+                    lg
+                    og
+                    sm
+                }
             }
             audioFile
             category {
@@ -130,6 +135,11 @@ export const GET_HAPPENING_SURVEY_HISTORY_ITEM = gql`
                     attachment {
                         id
                         media
+                        mediaAsset {
+                            lg
+                            og
+                            sm
+                        }
                     }
                     audioFile
                     category {

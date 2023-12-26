@@ -1,10 +1,15 @@
-import React, {useCallback, useState} from 'react';
-import {View, Image, Modal, TouchableOpacity} from 'react-native';
-import {FlatList, TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import React, {useCallback, useEffect, useState} from 'react';
+import {View, Image, Modal, TouchableOpacity, Dimensions} from 'react-native';
+import {
+    FlatList,
+    GestureHandlerRootView,
+    TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import Text from 'components/Text';
+import ZoomAbleImage from 'components/Image';
 
 import type {GalleryType} from '@generated/types';
 
@@ -19,22 +24,27 @@ interface ImageProps {
 
 interface PhotoProps {
     isVisible: boolean;
-    image: string;
+    items: GalleryType[];
+    selectedIndex: number | null;
+    onClose: () => void;
 }
 
 const EmptyImageList = () => (
     <Text style={styles.text} title={_('No images uploaded')} />
 );
 
+const {width} = Dimensions.get('window');
+
 const ImageItem: React.FC<{
     item: GalleryType;
     onPress: (item: GalleryType) => void;
-}> = ({item, onPress}) => {
+    index: number;
+}> = ({item, onPress, index}) => {
     const {isInternetReachable} = useNetInfo();
 
     const handlePress = useCallback(() => {
-        onPress(item);
-    }, [onPress, item]);
+        onPress(index);
+    }, [onPress, index]);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -53,7 +63,7 @@ const ImageItem: React.FC<{
             <TouchableWithoutFeedback onPress={handlePress}>
                 <Image
                     source={
-                        {uri: item.media as string} ||
+                        {uri: item?.mediaAsset?.sm as string} ||
                         require('assets/images/category-placeholder.png')
                     }
                     style={styles.images}
@@ -70,35 +80,32 @@ const ImageItem: React.FC<{
     );
 };
 
-const ImageView: React.FC<ImageProps> = ({images}) => {
-    const [openGallery, setOpenGallery] = useState<boolean>(false);
-    const [selectedImage, setSelectedImage] = useState<string>('');
-
-    const handleImage = useCallback(
-        item => {
-            setOpenGallery(!openGallery);
-            setSelectedImage(item.media);
-        },
-        [openGallery],
+const ImageModal: React.FC<PhotoProps> = ({
+    isVisible,
+    items,
+    selectedIndex,
+    onClose,
+}) => {
+    const [currentIndex, setCurrentIndex] = useState<number | null>(
+        selectedIndex,
     );
 
-    const renderImage = useCallback(
-        renderProps => <ImageItem {...renderProps} onPress={handleImage} />,
-        [handleImage],
-    );
+    useEffect(() => {
+        setCurrentIndex(selectedIndex);
+    }, [selectedIndex]);
 
-    const ImageModal: React.FC<PhotoProps> = ({isVisible, image}) => {
-        return (
-            <Modal
-                animationType="slide"
-                visible={isVisible}
-                presentationStyle="fullScreen"
-                onRequestClose={() => {
-                    setOpenGallery(false);
-                }}>
+    return (
+        <Modal
+            animationType="slide"
+            visible={isVisible}
+            presentationStyle="fullScreen"
+            onRequestClose={() => {
+                onClose();
+            }}>
+            <GestureHandlerRootView style={{flex: 1}}>
                 <View style={styles.container}>
                     <TouchableOpacity
-                        onPress={() => setOpenGallery(false)}
+                        onPress={() => onClose()}
                         style={styles.closeIcon}>
                         <Icon
                             name="close-outline"
@@ -107,17 +114,65 @@ const ImageView: React.FC<ImageProps> = ({images}) => {
                             fill={COLORS.tertiary}
                         />
                     </TouchableOpacity>
-                    <Image
-                        source={
-                            {uri: image} ||
-                            require('assets/images/category-placeholder.png')
-                        }
-                        style={styles.image}
+                    <FlatList
+                        keyExtractor={item => item.id}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        pagingEnabled
+                        horizontal
+                        initialScrollIndex={currentIndex}
+                        onScroll={e => {
+                            const x = e.nativeEvent.contentOffset.x;
+                            setCurrentIndex(Math.round(x / width));
+                        }}
+                        data={items}
+                        renderItem={({item, index}) => {
+                            return (
+                                <ZoomAbleImage
+                                    imageUrl={
+                                        item?.mediaAsset?.og || item.media
+                                    }
+                                    style={styles.image}
+                                    key={index}
+                                />
+                            );
+                        }}
                     />
+                    <View style={styles.imageFooterContainer}>
+                        <Text
+                            style={styles.imageFooterText}
+                            title={`${(currentIndex ?? 0) + 1} / ${
+                                items.length
+                            }`}
+                        />
+                    </View>
                 </View>
-            </Modal>
-        );
-    };
+            </GestureHandlerRootView>
+        </Modal>
+    );
+};
+
+const ImageView: React.FC<ImageProps> = ({images}) => {
+    const [openGallery, setOpenGallery] = useState<boolean>(false);
+    const [selectedIndex, setSeletedIndex] = useState<number | null>(null);
+
+    const handleImage = useCallback(
+        (index: number) => {
+            setOpenGallery(!openGallery);
+            setSeletedIndex(index);
+        },
+        [openGallery],
+    );
+
+    const handleClose = useCallback(() => {
+        setOpenGallery(false);
+        setSeletedIndex(null);
+    }, []);
+
+    const renderImage = useCallback(
+        renderProps => <ImageItem {...renderProps} onPress={handleImage} />,
+        [handleImage],
+    );
 
     return (
         <>
@@ -129,7 +184,12 @@ const ImageView: React.FC<ImageProps> = ({images}) => {
                 ListEmptyComponent={EmptyImageList}
                 removeClippedSubviews={true}
             />
-            <ImageModal isVisible={openGallery} image={selectedImage} />
+            <ImageModal
+                items={images}
+                isVisible={openGallery}
+                selectedIndex={selectedIndex}
+                onClose={() => handleClose()}
+            />
         </>
     );
 };
