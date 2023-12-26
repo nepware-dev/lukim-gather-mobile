@@ -4,6 +4,9 @@
             "module:react-native-dotenv"
         ],
         [
+            "module:react-native-reanimated/plugin"
+        ],
+        [
             "module-resolver",
             {
                 "cwd": "babelrc",

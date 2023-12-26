@@ -1,6 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 import COLORS from 'utils/colors';
+
+const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
@@ -21,6 +23,11 @@ export default StyleSheet.create({
     imageContainer: {
         position: 'relative',
     },
+    imageFooterContainer: {
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     errorTextContainer: {
         position: 'absolute',
         top: 0,
@@ -39,9 +46,8 @@ export default StyleSheet.create({
     },
     image: {
         flex: 1,
+        width: width,
         resizeMode: 'contain',
-        width: '100%',
-        height: '100%',
     },
     closeIcon: {
         alignSelf: 'flex-start',
@@ -53,5 +59,11 @@ export default StyleSheet.create({
         color: COLORS.greyTextDark,
         fontSize: 14,
         fontFamily: 'Inter-Regular',
+    },
+    imageFooterText: {
+        color: COLORS.greyTextDark,
+        fontSize: 17,
+        fontFamily: 'Inter-Regular',
+        fontWeight: '600',
     },
 });

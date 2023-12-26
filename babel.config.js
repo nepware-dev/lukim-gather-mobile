@@ -7,5 +7,11 @@ module.exports = {
                 moduleName: 'react-native-dotenv',
             },
         ],
+        [
+            'react-native-reanimated/plugin',
+            {
+                moduleName: 'react-native-reanimated/plugin',
+            },
+        ],
     ],
 };
