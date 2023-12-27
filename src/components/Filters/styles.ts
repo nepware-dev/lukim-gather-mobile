@@ -9,7 +9,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
     },
     containerOpen: {
-        height: 450,
+        height: 350,
     },
     pickerContainer: {
         width: '50%',
@@ -27,7 +27,7 @@ export default StyleSheet.create({
     picker: {
         borderColor: COLORS.border,
         borderRadius: 0,
-        height: 50,
+        minHeight: 40
     },
     pickerLeft: {
         borderTopLeftRadius: 8,

@@ -11,7 +11,7 @@ export default StyleSheet.create({
         paddingBottom: 80,
     },
     containerShifted: {
-        paddingTop: 210,
+        paddingTop: 160,
     },
     menuBar: {
         marginLeft: 20,

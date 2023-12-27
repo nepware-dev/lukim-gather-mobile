@@ -17,7 +17,6 @@ import type {ProjectType} from '@generated/types';
 import styles from './styles';
 
 export interface FiltersProps {
-    isAbsolute?: boolean;
     activeProjectId: null | ProjectType['id'];
     activeCategoryId: null | LocalCategoryType['id'];
     onProjectChange: React.Dispatch<
@@ -29,7 +28,6 @@ export interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({
-    isAbsolute,
     activeProjectId,
     activeCategoryId,
     onProjectChange,
@@ -87,19 +85,12 @@ const Filters: React.FC<FiltersProps> = ({
                                 styles.pickerContainerOpen,
                                 projectFilterOpen || categoryFilterOpen,
                             ],
-                            [styles.pickerContainerAbsolute, isAbsolute],
                         )}
-                        style={cs(styles.picker, styles.pickerLeft, [
-                            styles.pickerAbsolute,
-                            isAbsolute,
-                        ])}
-                        dropDownContainerStyle={cs(styles.dropdownContainer, [
-                            styles.dropdownContainerAbsolute,
-                            isAbsolute,
-                        ])}
+                        style={cs(styles.picker, styles.pickerLeft)}
+                        dropDownContainerStyle={cs(styles.dropdownContainer)}
                         textStyle={styles.textStyle}
                         placeholder={_('Select project')}
-                        maxHeight={400}
+                        maxHeight={300}
                         listItemContainerStyle={styles.projectListItemContainer}
                         itemSeparator
                         itemSeparatorStyle={styles.itemSeparator}
@@ -125,23 +116,16 @@ const Filters: React.FC<FiltersProps> = ({
                                 styles.pickerContainerOpen,
                                 projectFilterOpen || categoryFilterOpen,
                             ],
-                            [styles.pickerContainerAbsolute, isAbsolute],
                         )}
-                        style={cs(styles.picker, styles.pickerRight, [
-                            styles.pickerAbsolute,
-                            isAbsolute,
-                        ])}
-                        dropDownContainerStyle={cs(styles.dropdownContainer, [
-                            styles.dropdownContainerAbsolute,
-                            isAbsolute,
-                        ])}
+                        style={cs(styles.picker, styles.pickerRight)}
+                        dropDownContainerStyle={cs(styles.dropdownContainer)}
                         textStyle={styles.textStyle}
                         placeholder={_('Select category')}
                         searchable
                         searchPlaceholder={_('Search category...')}
                         searchContainerStyle={styles.searchContainer}
                         searchTextInputStyle={styles.searchTextInput}
-                        maxHeight={400}
+                        maxHeight={300}
                         itemSeparator
                         itemSeparatorStyle={styles.itemSeparator}
                         placeholderStyle={styles.placeholder}

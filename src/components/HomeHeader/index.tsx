@@ -2,7 +2,8 @@ import React, {useCallback, useState} from 'react';
 import {Image, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useLazyQuery } from '@apollo/client';
 
 import Text from 'components/Text';
 import Filters, {type FiltersProps} from 'components/Filters';
@@ -10,6 +11,7 @@ import SurveyListTab from 'components/SurveyListTab';
 
 import cs from '@rna/utils/cs';
 import {_} from 'services/i18n';
+import { GET_NOTIFICATIONS_UNREAD_COUNT } from 'services/gql/queries';
 
 import COLORS from 'utils/colors';
 
@@ -74,9 +76,27 @@ const HomeHeader: React.FC<Props> = props => {
     }, [onToggleFilters, isFilterActive]);
 
     const handleClearFilters = useCallback(() => {
+        setFilterActive(false);
         setProjectFilterId(null);
         setCategoryFilterId(null);
     }, [setProjectFilterId, setCategoryFilterId]);
+
+    const [getUnreadCount] = useLazyQuery(GET_NOTIFICATIONS_UNREAD_COUNT, {
+        fetchPolicy: 'network-only',
+    });
+    const [unRead, setUnRead] = useState<boolean>(false);
+
+    const handleRefresh = useCallback(() => {
+        getUnreadCount().then(({data}) =>
+            setUnRead(data?.notificationUnreadCount > 0),
+        );
+    }, [getUnreadCount]);
+
+    useFocusEffect(handleRefresh);
+
+    const handleNotificationPress= useCallback(() => {
+        navigation.navigate('Notifications', {});
+    }, [])
 
     return (
         <>
@@ -107,17 +127,21 @@ const HomeHeader: React.FC<Props> = props => {
                 />
                 <View style={styles.rightBar}>
                     <TouchableOpacity
-                        onPress={onSearchPress}
-                        style={cs(styles.searchBar, styles.rightMargin, [
-                            styles.whiteBg,
-                            homeScreen,
-                        ])}>
-                        <Icon
-                            name="search-outline"
-                            height={22}
-                            width={22}
-                            fill={'#101828'}
-                        />
+                        onPress={handleNotificationPress}
+                        style={cs(styles.notificationBar, styles.rightMargin, [styles.whiteBg, homeScreen])}>
+                        {unRead ? (
+                            <Image
+                                style={styles.notificationIcon}
+                                source={require('assets/images/active-notification.png')}
+                            />
+                        ) : (
+                            <Icon
+                                name="bell-outline"
+                                height={20}
+                                width={20}
+                                fill={COLORS.grey200}
+                            />
+                        )}
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={onExportPress}
@@ -135,50 +159,48 @@ const HomeHeader: React.FC<Props> = props => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View
-                style={cs(
-                    styles.filterButton,
-                    [styles.filterButtonLower, isFilterActive],
-                    [styles.filterButtonListView, !homeScreen],
-                )}>
+            <View style={styles.bottomContent}>
+                <View
+                    style={styles.filterButton}>
+                    {(isFilterActive || projectFilterId || categoryFilterId) ? (
+                        <TouchableOpacity
+                            style={cs(styles.filterButtonTouchable, styles.whiteBg)}
+                            onPress={handleClearFilters}>
+                            <Icon
+                                name="close-outline"
+                                width={25}
+                                height={25}
+                                fill={COLORS.accent}
+                            />
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+                            style={cs(styles.filterButtonTouchable, styles.whiteBg)}
+                            onPress={toggleFilterActive}>
+                            <Icon
+                                name="funnel"
+                                width={18}
+                                height={18}
+                                fill={COLORS.grey200}
+                            />
+                        </TouchableOpacity>
+                    )}
+                </View>
                 <TouchableOpacity
-                    style={cs(styles.filterButtonTouchable, [
-                        styles.filterButtonTouchableActive,
-                        isFilterActive || projectFilterId || categoryFilterId,
-                    ])}
-                    onPress={toggleFilterActive}>
-                    <View style={styles.filterButtonTouchableContent}>
-                        <Icon
-                            name="funnel-outline"
-                            width={20}
-                            height={20}
-                            fill={COLORS.greyTextDark}
-                        />
-                        {!homeScreen &&
-                            !(projectFilterId || categoryFilterId) && (
-                                <Text
-                                    style={styles.filterButtonTouchableText}
-                                    title={_('Filters')}
-                                />
-                            )}
-                    </View>
+                    onPress={onSearchPress}
+                    style={cs(styles.searchBar, styles.rightMargin, styles.whiteBg)}>
+                    <Icon
+                        name="search-outline"
+                        height={22}
+                        width={22}
+                        fill={'#101828'}
+                    />
                 </TouchableOpacity>
-                {(projectFilterId || categoryFilterId) && (
-                    <TouchableOpacity
-                        style={styles.clearButton}
-                        onPress={handleClearFilters}>
-                        <Text title="Clear" style={styles.clearText} />
-                    </TouchableOpacity>
-                )}
             </View>
             {isFilterActive && (
                 <View
-                    style={cs(styles.filtersContainer, [
-                        styles.filtersContainerListView,
-                        !homeScreen,
-                    ])}>
+                    style={cs(styles.filtersContainer)}>
                     <Filters
-                        isAbsolute={homeScreen}
                         activeProjectId={projectFilterId}
                         onProjectChange={setProjectFilterId}
                         activeCategoryId={categoryFilterId}

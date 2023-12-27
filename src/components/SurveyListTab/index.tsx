@@ -53,7 +53,6 @@ const TabItem = ({
                 )}
                 title={title}
                 numberOfLines={1}
-                adjustsFontSizeToFit
             />
         </TouchableOpacity>
     );

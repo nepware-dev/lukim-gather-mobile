@@ -15,14 +15,14 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
     },
     homeHeader: {
         backgroundColor: 'transparent',
     },
     homeScreenTab: {
         marginBottom: 0,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         shadowOffset: {
             width: 2,
             height: 5,
@@ -45,13 +45,21 @@ export default StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
     },
-    searchBar: {
+    notificationBar: {
         backgroundColor: '#E7EEF6',
         borderRadius: 20,
         padding: 8,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    searchBar: {
+        backgroundColor: COLORS.white,
+        borderRadius: 20,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 6,
     },
     exportBar: {
         backgroundColor: '#E7EEF6',
@@ -67,7 +75,7 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     whiteBg: {
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         shadowOffset: {
             width: 2,
             height: 5,
@@ -95,7 +103,7 @@ export default StyleSheet.create({
         fontSize: 12,
         lineHeight: 16,
         fontFamily: 'Inter-SemiBold',
-        color: '#fff',
+        color: COLORS.white,
     },
     shadowItem: {
         shadowOffset: {
@@ -107,65 +115,45 @@ export default StyleSheet.create({
         textShadowRadius: 10,
         elevation: 10,
     },
-    filterButton: {
+    bottomContent: {
+        padding: 2,
         position: 'absolute',
-        top: 104,
-        left: 15,
+        top: 100,
+        right: 0,
         zIndex: 6,
-        backgroundColor: '#fff',
-        borderRadius: 255,
-        elevation: 10,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        marginRight: 'auto',
     },
-    clearButton: {
-        marginLeft: 4,
-        marginRight: 12,
-    },
-    clearText: {
-        color: COLORS.greyTextDark,
-        fontSize: 12,
-        fontFamily: 'Inter-Medium',
-    },
-    filterButtonLower: {
-        top: 158,
-    },
-    filterButtonListView: {
-        left: 20,
+    filterButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     filterButtonTouchable: {
-        padding: 8,
-        borderRadius: 255,
-    },
-    filterButtonTouchableContent: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-    },
-    filterButtonTouchableText: {
-        marginHorizontal: 6,
-    },
-    filterButtonTouchableActive: {
-        backgroundColor: COLORS.backgroundLight,
-        borderWidth: 1,
-        borderColor: COLORS.background,
-        elevation: 2,
+        justifyContent: 'center',
+        marginRight: 8,
+        backgroundColor: COLORS.white,
+        borderRadius: 25,
+        elevation: 10,
+        height: 34,
+        width: 34,
     },
     filtersContainer: {
-        position: 'absolute',
-        top: 96,
-        right: 15,
-        left: 15,
-        zIndex: 6,
-        backgroundColor: 'transparent',
         borderRadius: 8,
-    },
-    filtersContainerListView: {
-        marginBottom: 10,
-        right: 20,
+        position: 'absolute',
+        top: 100,
+        right: 90,
         left: 20,
-        paddingVertical: 6,
-        zIndex: 10,
+        zIndex: 6,
+    },
+    notificationIcon: {
+        height: 20,
+        width: 20,
+        resizeMode: 'contain',
     },
 });

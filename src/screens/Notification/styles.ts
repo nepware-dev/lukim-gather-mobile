@@ -44,4 +44,27 @@ export default StyleSheet.create({
         color: COLORS.inputText,
         textAlign: 'left',
     },
+    emptyWrapper: {
+        marginTop: '15%',
+    },
+    emptyIcon: {
+        height: 260,
+        resizeMode: 'contain',
+        marginBottom: 80,
+    },
+    emptyTitle: {
+        fontSize: 24,
+        lineHeight: 36,
+        fontFamily: 'Inter-SemiBold',
+        color: COLORS.tertiary,
+        textAlign: 'center',
+        marginBottom: 16,
+    },
+    emptyMessage: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Inter-Regular',
+        color: COLORS.grey300,
+        textAlign: 'center',
+    }
 });
