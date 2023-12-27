@@ -1,12 +1,11 @@
 import {formatDistanceToNow} from 'date-fns';
 import React, {useCallback} from 'react';
-import {FlatList, ListRenderItem, RefreshControl, View} from 'react-native';
+import {FlatList, Image, ListRenderItem, RefreshControl, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import {useLazyQuery, useMutation} from '@apollo/client';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-import EmptyListMessage from 'components/EmptyListMessage';
 import Text from 'components/Text';
 
 import useQuery from 'hooks/useQuery';
@@ -23,6 +22,19 @@ import Toast from 'utils/toast';
 
 import COLORS from 'utils/colors';
 import styles from './styles';
+
+const NoNotification = () => {
+    return (
+        <View style={styles.emptyWrapper}>
+            <Image
+                style={styles.emptyIcon}
+                source={require('assets/icons/no-notification.png')}
+            />
+            <Text style={styles.emptyTitle} title="Oops! No Notification Found" />
+            <Text style={styles.emptyMessage} title="You currently have no notifications. We'll notify you when something new arrives." />
+        </View>
+    )
+}
 
 type IconType = {
     happening_survey_approved: string;
@@ -110,7 +122,7 @@ const Notifications = () => {
                 keyExtractor={keyExtractor}
                 ListEmptyComponent={
                     loading ? null : (
-                        <EmptyListMessage message={_('No notifications!')} />
+                        <NoNotification />
                     )
                 }
                 refreshControl={
