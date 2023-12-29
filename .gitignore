@@ -36,6 +36,7 @@ local.properties
 android/app/release
 !debug.keystore
 /android/release.keystore
+android/app/.cxx/
 
 
 # node.js
