@@ -46,6 +46,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
     },
     notificationBar: {
+        position: 'relative',
         backgroundColor: '#E7EEF6',
         borderRadius: 20,
         padding: 8,
@@ -151,9 +152,23 @@ export default StyleSheet.create({
         left: 20,
         zIndex: 6,
     },
-    notificationIcon: {
-        height: 20,
-        width: 20,
-        resizeMode: 'contain',
+    notificationCount: {
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        color: COLORS.white,
+        backgroundColor: COLORS.error,
+        height: 12,
+        width: 12,
+        borderRadius: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 2,
     },
+    count: {
+        fontSize: 8,
+        fontFamily: 'Inter-SemiBold',
+        color: COLORS.white,
+    }
 });

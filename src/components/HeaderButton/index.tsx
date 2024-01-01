@@ -1,8 +1,10 @@
 import React, {useCallback} from 'react';
-import {Image, Keyboard} from 'react-native';
+import {Keyboard, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import {useNavigation} from '@react-navigation/native';
+
+import Text from 'components/Text';
 
 import COLORS from 'utils/colors';
 
@@ -84,28 +86,31 @@ export const SearchIcon = ({onSearchPress}: {onSearchPress(): void}) => {
 
 export const NotificationIcon = ({
     onNotificationPress,
-    unRead,
+    unReadCount,
 }: {
     onNotificationPress(): void;
-    unRead: boolean;
+    unReadCount: number;
 }) => {
     return (
         <TouchableOpacity
             onPress={onNotificationPress}
             style={styles.headerIcon}>
-            {unRead ? (
-                <Image
-                    style={styles.notificationIcon}
-                    source={require('assets/images/active-notification.png')}
-                />
-            ) : (
-                <Icon
-                    name="bell-outline"
-                    height={30}
-                    width={30}
-                    fill={'#101828'}
-                />
+            {unReadCount > 0 && (
+                <View style={styles.notificationCount}>
+                    {unReadCount < 10 && (
+                        <Text
+                            style={styles.count}
+                            title={unReadCount}
+                        />
+                    )}
+                </View>
             )}
+            <Icon
+                name="bell-outline"
+                height={25}
+                width={25}
+                fill={COLORS.grey200}
+            />
         </TouchableOpacity>
     );
 };

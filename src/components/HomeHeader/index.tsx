@@ -84,11 +84,11 @@ const HomeHeader: React.FC<Props> = props => {
     const [getUnreadCount] = useLazyQuery(GET_NOTIFICATIONS_UNREAD_COUNT, {
         fetchPolicy: 'network-only',
     });
-    const [unRead, setUnRead] = useState<boolean>(false);
+    const [unReadCount, setUnReadCount] = useState<number>(0);
 
     const handleRefresh = useCallback(() => {
         getUnreadCount().then(({data}) =>
-            setUnRead(data?.notificationUnreadCount > 0),
+            setUnReadCount(data?.notificationUnreadCount),
         );
     }, [getUnreadCount]);
 
@@ -129,19 +129,22 @@ const HomeHeader: React.FC<Props> = props => {
                     <TouchableOpacity
                         onPress={handleNotificationPress}
                         style={cs(styles.notificationBar, styles.rightMargin, [styles.whiteBg, homeScreen])}>
-                        {unRead ? (
-                            <Image
-                                style={styles.notificationIcon}
-                                source={require('assets/images/active-notification.png')}
-                            />
-                        ) : (
-                            <Icon
-                                name="bell-outline"
-                                height={20}
-                                width={20}
-                                fill={COLORS.grey200}
-                            />
+                        {unReadCount > 0 && (
+                            <View style={styles.notificationCount}>
+                                {unReadCount < 10 && (
+                                    <Text
+                                        style={styles.count}
+                                        title={unReadCount}
+                                    />
+                                )}
+                            </View>
                         )}
+                        <Icon
+                            name="bell-outline"
+                            height={20}
+                            width={20}
+                            fill={COLORS.grey200}
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={onExportPress}
