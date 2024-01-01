@@ -74,11 +74,11 @@ export default function TabNavigator() {
     const [getUnreadCount] = useLazyQuery(GET_NOTIFICATIONS_UNREAD_COUNT, {
         fetchPolicy: 'network-only',
     });
-    const [unRead, setUnRead] = useState<boolean>(false);
+    const [unReadCount, setUnReadCount] = useState<number>(0);
 
     const handleRefresh = useCallback(() => {
         getUnreadCount().then(({data}) =>
-            setUnRead(data?.notificationUnreadCount > 0),
+            setUnReadCount(data?.notificationUnreadCount),
         );
     }, [getUnreadCount]);
     useFocusEffect(handleRefresh);
@@ -130,7 +130,7 @@ export default function TabNavigator() {
                                 onNotificationPress={() =>
                                     navigation.navigate('Notifications', {})
                                 }
-                                unRead={unRead}
+                                unReadCount={unReadCount}
                             />
                         ),
                     headerShown: true,
