@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, View, Image} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 
 import Text from 'components/Text';
 import Modal from 'components/Modal';
@@ -22,10 +22,10 @@ const ActionItem = ({
     icon?: string;
 }) => {
     return (
-        <Pressable style={styles.option} onPress={onPress}>
+        <TouchableOpacity style={styles.option} onPress={onPress}>
             <Image source={icon || pdfIcon} style={styles.icon} />
             <Text style={styles.title} title={title} />
-        </Pressable>
+        </TouchableOpacity>
     );
 };
 

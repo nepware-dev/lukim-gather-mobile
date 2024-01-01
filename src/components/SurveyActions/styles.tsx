@@ -1,5 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StatusBar, StyleSheet} from 'react-native';
 import COLORS from 'utils/colors';
+
+const statusBarHeight =
+        Platform.OS === 'android' ? (StatusBar.currentHeight as number) : 0;
 
 export default StyleSheet.create({
     actionModal: {
@@ -48,6 +51,7 @@ export default StyleSheet.create({
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         padding: 20,
+        marginBottom: -statusBarHeight,
     },
     option: {
         flexDirection: 'row',

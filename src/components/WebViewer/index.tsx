@@ -1,5 +1,4 @@
-import React, {useRef, useCallback} from 'react';
-import {Linking} from 'react-native';
+import React, {useRef} from 'react';
 import WebView from 'react-native-webview';
 
 const WebViewer = ({
@@ -16,14 +15,6 @@ const WebViewer = ({
                      <body>${html}</body>
                   </html>`;
 
-    const onNavigationStateChange = useCallback(event => {
-        if (event.url.startsWith('http')) {
-            webview.current.stopLoading();
-            Linking.openURL(event.url);
-            return false;
-        }
-    }, []);
-
     return (
         <WebView
             ref={webview}
@@ -33,7 +24,6 @@ const WebViewer = ({
             originWhitelist={['*']}
             showsVerticalScrollIndicator={false}
             source={{html: _html}}
-            onShouldStartLoadWithRequest={onNavigationStateChange}
         />
     );
 };
