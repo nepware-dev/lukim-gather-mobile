@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StatusBar, useWindowDimensions} from 'react-native';
+import {Platform, StatusBar, View, useWindowDimensions} from 'react-native';
 import Modal from 'react-native-modal';
 
 interface Props {
@@ -30,7 +30,9 @@ const _Modal = ({
             onBackdropPress={onBackdropPress}
             style={style}
             {...modalProps}>
-            {children}
+                <View style={{marginBottom: -statusBarHeight}}>
+                    {children}
+                </View>
         </Modal>
     );
 };
