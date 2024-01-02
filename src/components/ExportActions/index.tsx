@@ -49,11 +49,14 @@ const ExportActions: React.FC<Props> = ({
             onBackdropPress={onBackdropPress}
             style={styles.actionModal}>
             <View style={styles.options}>
-                <ActionItem
-                    title={_('Export as Image (PNG)')}
-                    onPress={onClickExportImage}
-                    icon={pngIcon}
-                />
+                <View style={{display: 'none'}}>
+                    <ActionItem
+                        title={_('Export as Image (PNG)')}
+                        onPress={onClickExportImage}
+                        icon={pngIcon}
+                    />
+                </View>
+                {/* Fixme export image */}
                 <ActionItem
                     title={_('Export as Data (CSV)')}
                     onPress={onClickExportCSV}
