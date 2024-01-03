@@ -1463,7 +1463,7 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.8.0)
   - RNNotifee/NotifeeCore (7.8.0):
     - React-Core
-  - RNPermissions (3.10.1):
+  - RNPermissions (4.0.2):
     - glog
     - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
@@ -1948,7 +1948,7 @@ SPEC CHECKSUMS:
   RNLinearGradient: c0c3e685612005ce2513900772af8527029cef94
   rnmapbox-maps: 2e58e263bef4537ba223cf8bad4cdcb2cdc1d26f
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
-  RNPermissions: eda322cd2f71b803e933de722adfe91b1d948197
+  RNPermissions: 04f9ea7f94f9a967e1249e67167c1ad951604607
   RNScreens: d851f8b82b7d65ee1a3175c8e4f8a8782a2c5d96
   RNSVG: 4bf00771df38db39806e0ed32834a3f7f70742be
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
@@ -1957,6 +1957,6 @@ SPEC CHECKSUMS:
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
   Yoga: 2b33a7ac96c58cdaa7b810948fc6a2a76ed2d108
 
-PODFILE CHECKSUM: d2674222d422ddd682dabf88dacbbdfa27e59fb4
+PODFILE CHECKSUM: 7016299f3ea7a380d2ed76f40250d68568f9533e
 
 COCOAPODS: 1.14.3

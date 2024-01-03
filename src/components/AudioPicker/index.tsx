@@ -96,11 +96,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
             ]);
 
             if (
-                grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-                    PermissionsAndroid.RESULTS.GRANTED &&
-                grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-                    PermissionsAndroid.RESULTS.GRANTED &&
-                grants['android.permission.RECORD_AUDIO'] ===
+                grants[PermissionsAndroid.PERMISSIONS.RECORD_AUDIO] ===
                     PermissionsAndroid.RESULTS.GRANTED
             ) {
                 return true;

@@ -24,7 +24,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 lukimgather.app.dSYM.zip
-ios/.xcode.env.local
+.xcode.env.local
 
 # Android/IntelliJ
 #
