@@ -32,7 +32,7 @@ import ProjectInput from 'components/ProjectInput';
 import SurveyActions from 'components/SurveyActions';
 import SurveyReview from 'components/SurveyReview';
 import ExportActions from 'components/ExportActions';
-import {Audio} from 'components/AudioPicker';
+import Audio from 'components/Audio';
 import Map from 'components/Map';
 
 import {jsonToCSV} from 'utils';

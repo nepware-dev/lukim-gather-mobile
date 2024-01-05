@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-    Image,
     PermissionsAndroid,
     Platform,
     Pressable,
@@ -15,7 +14,6 @@ import AudioRecorderPlayer, {
     AVEncoderAudioQualityIOSType,
     AVEncodingOption,
     OutputFormatAndroidType,
-    PlayBackType,
     RecordBackType,
 } from 'react-native-audio-recorder-player';
 import DocumentPicker, {
@@ -26,6 +24,8 @@ import {Icon} from 'react-native-eva-icons';
 import RNFetchBlob, {RNFetchBlobFile} from 'react-native-blob-util';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 
+import Audio from 'components/Audio';
+import AnimatedAudioWave from 'components/Audio/wave';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import {_} from 'services/i18n';
@@ -35,15 +35,6 @@ import cs from '@rna/utils/cs';
 
 import styles from './styles';
 import COLORS from 'utils/colors';
-
-interface AudioProps {
-    audio: {
-        uri: string;
-        name: string;
-    };
-    onRemoveAudio?(audio: null): void;
-    isStatic?: boolean;
-}
 
 interface AudioPickerProps {
     onAddAudio: (audio: any) => void;
@@ -55,6 +46,21 @@ interface AudioRecorderModalProps {
     isVisible: boolean;
     onChange: (audio: RNFetchBlobFile) => void;
     onBackdropPress: () => void;
+}
+
+interface RecordWelcomeScreenProps {
+    onRecordPress: () => void;
+}
+
+interface RecordScreenProps {
+    isRecording: boolean;
+    pauseRecording: boolean;
+    stopRecording: boolean;
+    recordTime: string;
+    currentVolume?: number;
+    onRecordControlPress(): void;
+    onRecordResetPress(): void;
+    onRecordStopPress(): void;
 }
 
 const responseToFile = (res: any) => {
@@ -76,6 +82,78 @@ const path = Platform.select({
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
+const RecordWelcomeScreen = ({onRecordPress}: RecordWelcomeScreenProps) => {
+    return (
+        <View style={styles.record}>
+            <Pressable onPress={() => onRecordPress()}>
+                <View style={styles.startRecordIcon}>
+                    <Icon
+                        name="mic-outline"
+                        height={40}
+                        width={40}
+                        fill={COLORS.secondary}
+                    />
+                </View>
+            </Pressable>
+            <Text style={styles.text}>{_('Click to start recording')}</Text>
+        </View>
+    );
+};
+
+const RecordScreen = ({
+    isRecording,
+    pauseRecording,
+    stopRecording,
+    recordTime,
+    currentVolume,
+    onRecordControlPress,
+    onRecordResetPress,
+    onRecordStopPress,
+}: RecordScreenProps) => {
+    return (
+        <View style={styles.recordContainer}>
+            <Text style={styles.text}>
+                {stopRecording
+                    ? 'Stopped'
+                    : isRecording && pauseRecording
+                      ? _('Recording...')
+                      : _('Paused')}
+            </Text>
+            <AnimatedAudioWave currentVolume={currentVolume} />
+            <Text style={styles.txtRecordCounter}>{recordTime}</Text>
+            <TouchableOpacity
+                onPress={onRecordControlPress}
+                disabled={stopRecording}>
+                <Icon
+                    name={pauseRecording ? 'pause-circle' : 'play-circle'}
+                    height={53}
+                    width={53}
+                    fill={COLORS.secondary}
+                    style={styles.recordIcon}
+                />
+            </TouchableOpacity>
+            <View style={styles.buttonWrapper}>
+                <Button
+                    outline
+                    style={styles.resetButton}
+                    textStyle={styles.textStyle}
+                    title={_('Reset')}
+                    onPress={onRecordResetPress}
+                />
+                <Button
+                    style={cs(
+                        styles.stopButton,
+                        [{backgroundColor: COLORS.secondary}],
+                        stopRecording,
+                    )}
+                    title={stopRecording ? _('Done') : _('Stop recording')}
+                    onPress={onRecordStopPress}
+                />
+            </View>
+        </View>
+    );
+};
+
 const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
     isVisible,
     onChange,
@@ -86,6 +164,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
     const [stopRecording, setStopRecording] = useState<boolean>(false);
     const [recordTime, setRecordTime] = useState<string>('00:00:00');
     const [audioFile, setAudioFile] = useState<RNFetchBlobFile | null>(null);
+    const [currentVolume, setCurrentVolume] = useState<number | undefined>();
 
     const getPermissionAndroid = useCallback(async () => {
         try {
@@ -97,7 +176,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
 
             if (
                 grants[PermissionsAndroid.PERMISSIONS.RECORD_AUDIO] ===
-                    PermissionsAndroid.RESULTS.GRANTED
+                PermissionsAndroid.RESULTS.GRANTED
             ) {
                 return true;
             } else {
@@ -152,7 +231,15 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
                 OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
             };
 
-            const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+            const meteringEnabled = true;
+
+            audioRecorderPlayer.setSubscriptionDuration(0.1);
+
+            const uri = await audioRecorderPlayer.startRecorder(
+                path,
+                audioSet,
+                meteringEnabled,
+            );
             setAudioFile({
                 path: uri,
                 mime: 'audio/mpeg',
@@ -163,6 +250,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
                 setRecordTime(
                     audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
                 );
+                setCurrentVolume(e?.currentMetering);
             });
         } catch (error) {
             console.warn(error);
@@ -181,6 +269,11 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
         };
     }, [isRecording, recordAudio]);
 
+    const handleRecord = useCallback(() => {
+        setStopRecording(false);
+        setIsRecording(true);
+    }, []);
+
     const handleRecordControl = useCallback(async () => {
         if (pauseRecording) {
             audioRecorderPlayer.pauseRecorder();
@@ -190,7 +283,7 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
         setPauseRecording(!pauseRecording);
     }, [pauseRecording]);
 
-    const handleResetRecord = useCallback(async () => {
+    const handleRecordReset = useCallback(async () => {
         try {
             await audioRecorderPlayer.stopRecorder();
             audioRecorderPlayer.removeRecordBackListener();
@@ -200,9 +293,11 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
         }
         setRecordTime('00:00:00');
         setIsRecording(false);
-    }, [setRecordTime]);
+        setPauseRecording(true);
+        setStopRecording(false);
+    }, [setRecordTime, setPauseRecording, setStopRecording]);
 
-    const handleStopRecord = useCallback(async () => {
+    const handleRecordStop = useCallback(async () => {
         try {
             if (stopRecording) {
                 setIsRecording(false);
@@ -223,72 +318,6 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
         }
     }, [onBackdropPress, stopRecording, audioFile, onChange]);
 
-    const RecordWelcomeScreen = () => {
-        return (
-            <View style={styles.record}>
-                <Pressable onPress={() => setIsRecording(true)}>
-                    <View style={styles.startRecordIcon}>
-                        <Icon
-                            name="mic-outline"
-                            height={40}
-                            width={40}
-                            fill={COLORS.secondary}
-                        />
-                    </View>
-                </Pressable>
-                <Text style={styles.text}>{_('Click to start recording')}</Text>
-            </View>
-        );
-    };
-
-    const RecordScreen = () => {
-        return (
-            <View style={styles.recordContainer}>
-                <Text style={styles.text}>
-                    {stopRecording
-                        ? 'Stopped'
-                        : isRecording && pauseRecording
-                        ? _('Recording...')
-                        : _('Paused')}
-                </Text>
-                <Image
-                    source={require('assets/images/wave.png')}
-                    style={styles.wave}
-                />
-                <Text style={styles.txtRecordCounter}>{recordTime}</Text>
-                <TouchableOpacity
-                    onPress={handleRecordControl}
-                    disabled={stopRecording}>
-                    <Icon
-                        name={pauseRecording ? 'pause-circle' : 'play-circle'}
-                        height={53}
-                        width={53}
-                        fill={COLORS.secondary}
-                        style={styles.recordIcon}
-                    />
-                </TouchableOpacity>
-                <View style={styles.buttonWrapper}>
-                    <Button
-                        outline
-                        style={styles.resetButton}
-                        textStyle={styles.textStyle}
-                        title={_('Reset')}
-                        onPress={handleResetRecord}
-                    />
-                    <Button
-                        style={cs(
-                            styles.stopButton,
-                            [{backgroundColor: COLORS.secondary}],
-                            stopRecording,
-                        )}
-                        title={stopRecording ? _('Done') : _('Stop recording')}
-                        onPress={handleStopRecord}
-                    />
-                </View>
-            </View>
-        );
-    };
-
     const handleClose = useCallback(async () => {
         audioRecorderPlayer.removeRecordBackListener();
         setIsRecording(false);
@@ -306,108 +335,22 @@ const AudioRecorderModal: React.FC<AudioRecorderModalProps> = ({
                 <TouchableOpacity onPress={handleClose}>
                     <View style={styles.modalResponder} />
                 </TouchableOpacity>
-                {isRecording ? <RecordScreen /> : <RecordWelcomeScreen />}
-            </View>
-        </Modal>
-    );
-};
-
-export const Audio: React.FC<AudioProps> = ({
-    audio,
-    onRemoveAudio,
-    isStatic,
-}) => {
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [isPaused, setIsPaused] = useState<boolean>(false);
-
-    useEffect(() => {
-        return () => {
-            audioRecorderPlayer.stopPlayer();
-            audioRecorderPlayer.removePlayBackListener();
-        };
-    }, []);
-
-    const onStartPlay = useCallback(async () => {
-        try {
-            await audioRecorderPlayer.startPlayer(
-                audio?.uri || (audio as unknown as string),
-            );
-            audioRecorderPlayer.setVolume(1.0);
-            audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-                if (e.currentPosition === e.duration) {
-                    setIsPlaying(false);
-                }
-            });
-            setIsPlaying(true);
-        } catch (err) {
-            console.warn(err);
-        }
-    }, [audio]);
-
-    const onPausePlay = useCallback(async () => {
-        await audioRecorderPlayer.pausePlayer();
-        setIsPaused(true);
-    }, []);
-
-    const onResumePlay = useCallback(async () => {
-        await audioRecorderPlayer.resumePlayer();
-        setIsPaused(false);
-    }, []);
-
-    const handlePlayer = useCallback(() => {
-        if (!isPlaying) {
-            onStartPlay();
-        } else if (isPaused) {
-            onResumePlay();
-        } else {
-            onPausePlay();
-        }
-    }, [isPlaying, isPaused, onStartPlay, onPausePlay, onResumePlay]);
-
-    const handleRemoveAudio = useCallback(async () => {
-        await audioRecorderPlayer.stopPlayer();
-        audioRecorderPlayer.removePlayBackListener();
-        onRemoveAudio && onRemoveAudio(null);
-    }, [onRemoveAudio]);
-
-    const playStatusIcon = isPlaying
-        ? isPaused
-            ? 'play-circle'
-            : 'pause-circle'
-        : 'play-circle';
-
-    return (
-        <View style={styles.container}>
-            <View style={styles.audioContainer}>
-                <View style={styles.audioWrapper}>
-                    <TouchableOpacity onPress={handlePlayer}>
-                        <Icon
-                            name={playStatusIcon}
-                            height={40}
-                            width={40}
-                            fill={COLORS.blueText}
-                            style={styles.audioIcon}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.audioTitle}>
-                        {audio?.name?.substring(0, 28) ||
-                            audio
-                                ?.substring(audio.lastIndexOf('/') + 1)
-                                .substring(0, 28)}
-                    </Text>
-                </View>
-                {!isStatic && (
-                    <TouchableOpacity onPress={handleRemoveAudio}>
-                        <Icon
-                            name={'trash-2-outline'}
-                            height={30}
-                            width={30}
-                            fill={COLORS.greyText}
-                        />
-                    </TouchableOpacity>
+                {isRecording ? (
+                    <RecordScreen
+                        isRecording={isRecording}
+                        pauseRecording={pauseRecording}
+                        stopRecording={stopRecording}
+                        recordTime={recordTime}
+                        currentVolume={currentVolume}
+                        onRecordControlPress={handleRecordControl}
+                        onRecordResetPress={handleRecordReset}
+                        onRecordStopPress={handleRecordStop}
+                    />
+                ) : (
+                    <RecordWelcomeScreen onRecordPress={() => handleRecord()} />
                 )}
             </View>
-        </View>
+        </Modal>
     );
 };
 
@@ -452,7 +395,7 @@ const _AudioPicker: React.FC<AudioPickerProps> = ({
     }, []);
 
     const onChange = useCallback(
-        response => {
+        (response: RNFetchBlobFile) => {
             onChangeCallback(response);
         },
         [onChangeCallback],

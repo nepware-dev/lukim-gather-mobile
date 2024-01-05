@@ -113,45 +113,4 @@ export default StyleSheet.create({
         textAlignVertical: 'center',
         fontWeight: '600',
     },
-    txtRecordStatus: {
-        color: COLORS.greyText,
-        fontSize: 18,
-        fontFamily: 'Inter-Regular',
-        fontWeight: '600',
-    },
-    wave: {
-        marginTop: 24,
-    },
-    audioContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-    },
-    audioWrapper: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#E7EEF6',
-        borderWidth: 1,
-        borderColor: '#CEDCEC',
-        borderRadius: 48,
-        padding: 11,
-        paddingRight: 28,
-    },
-    audioIcon: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 22,
-    },
-    audioTitle: {
-        color: COLORS.greyText,
-        fontSize: 16,
-        fontFamily: 'Inter-Regular',
-        fontWeight: '500',
-        marginHorizontal: 11,
-    },
-    delete: {
-        marginLeft: 16,
-    },
 });
