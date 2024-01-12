@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
-import {Image, ScrollView, View, Platform} from 'react-native';
+import {Image, ScrollView, View, Platform, TouchableOpacity} from 'react-native';
 import {
     useNavigation,
     useRoute,
@@ -7,7 +7,6 @@ import {
 } from '@react-navigation/native';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import {useMutation} from '@apollo/client';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import uuid from 'react-native-uuid';
 

@@ -77,6 +77,7 @@ export default function TabNavigator() {
     const [unReadCount, setUnReadCount] = useState<number>(0);
 
     const handleRefresh = useCallback(() => {
+        if(!isAuthenticated) return;
         getUnreadCount().then(({data}) =>
             setUnReadCount(data?.notificationUnreadCount),
         );

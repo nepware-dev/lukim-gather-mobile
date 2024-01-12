@@ -1,7 +1,6 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, TextInput} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
-import {TextInput} from 'react-native-gesture-handler';
 
 import {_} from 'services/i18n';
 import COLORS from 'utils/colors';

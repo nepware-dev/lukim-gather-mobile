@@ -13,6 +13,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import SplashScreen from 'react-native-splash-screen';
 import codePush from 'react-native-code-push';
 import Toast from 'react-native-toast-message';
+import { enableFreeze, enableScreens } from 'react-native-screens';
 
 import AppNavigator from 'navigation';
 
@@ -39,6 +40,9 @@ import {
 if (HIDE_LOGBOX === 'yes') {
     LogBox.ignoreAllLogs();
 }
+
+enableFreeze(true);
+enableScreens(false);
 
 QueueLink.setFilter(['query']);
 export const queueLink = new QueueLink();

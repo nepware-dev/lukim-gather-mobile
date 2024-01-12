@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -128,15 +129,14 @@ const AppNavigator = () => {
     const {data} = useQuery(GET_LEGAL_DOCUMENT);
     useFCM();
 
-    dispatchInfo(data?.legalDocument);
-
     const getUserData = useGetUser();
     const {isInternetReachable} = useNetInfo();
     useEffect(() => {
+        dispatchInfo(data?.legalDocument);
         if (isInternetReachable && isAuthenticated) {
             getUserData();
         }
-    }, [isInternetReachable, isAuthenticated, getUserData]);
+    }, [isInternetReachable, isAuthenticated, getUserData, data]);
 
     return (
         <Stack.Navigator

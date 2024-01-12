@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState, useRef} from 'react';
-import {View, Image, Alert} from 'react-native';
+import {View, Image, Alert, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Mapbox, {
     MapView,
     Camera,
@@ -60,7 +59,7 @@ const Map: React.FC<Props> = ({
 }) => {
     const netInfo = useNetInfo();
 
-    const [isOffline, setIsOffline] = useState(true);
+    const [isOffline, setIsOffline] = useState(false);
 
     const manageOffline = useCallback(
         async packName => {

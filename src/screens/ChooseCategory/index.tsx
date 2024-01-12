@@ -1,7 +1,6 @@
 import React, {useCallback, useState, useRef, useEffect, useMemo} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Image, View, useWindowDimensions} from 'react-native';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import {Image, View, useWindowDimensions, TouchableOpacity, FlatList} from 'react-native';
 
 import {_} from 'services/i18n';
 import Text from 'components/Text';

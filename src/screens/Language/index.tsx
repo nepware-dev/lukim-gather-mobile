@@ -1,8 +1,7 @@
 import React, {useCallback} from 'react';
-import {View} from 'react-native';
+import {View, TouchableOpacity, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import Text from 'components/Text';
 import {_} from 'services/i18n';
 import {dispatchLocale} from 'services/dispatch';
