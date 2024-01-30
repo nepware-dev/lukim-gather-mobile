@@ -1,7 +1,6 @@
 import React, {useCallback, useState, useMemo} from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import VersionNumber from 'react-native-version-number';

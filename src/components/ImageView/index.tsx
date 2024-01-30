@@ -1,10 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Image, Modal, TouchableOpacity, Dimensions} from 'react-native';
-import {
-    FlatList,
-    GestureHandlerRootView,
-    TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import {View, Image, Modal, TouchableOpacity, Dimensions, FlatList, TouchableWithoutFeedback} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useNetInfo} from '@react-native-community/netinfo';
 
@@ -60,21 +55,23 @@ const ImageItem: React.FC<{
 
     return (
         <View style={styles.imageContainer}>
-            <TouchableWithoutFeedback onPress={handlePress}>
-                <Image
-                    source={
-                        {uri: item?.mediaAsset?.sm as string} ||
-                        require('assets/images/category-placeholder.png')
-                    }
-                    style={styles.images}
-                    onError={handleImageError}
-                    onLoad={handleImageLoad}
-                />
-                {Boolean(error) && (
-                    <View style={styles.errorTextContainer}>
-                        <Text title={error} style={styles.errorText} />
-                    </View>
-                )}
+            <TouchableWithoutFeedback  onPress={handlePress}>
+		<View>
+		    <Image
+			source={
+			    {uri: item?.mediaAsset?.sm as string} ||
+			    require('assets/images/category-placeholder.png')
+			}
+			style={styles.images}
+			onError={handleImageError}
+			onLoad={handleImageLoad}
+		    />
+		    {Boolean(error) && (
+			<View style={styles.errorTextContainer}>
+			    <Text title={error} style={styles.errorText} />
+			</View>
+		    )}
+		</View>
             </TouchableWithoutFeedback>
         </View>
     );
@@ -102,52 +99,50 @@ const ImageModal: React.FC<PhotoProps> = ({
             onRequestClose={() => {
                 onClose();
             }}>
-            <GestureHandlerRootView style={{flex: 1}}>
-                <View style={styles.container}>
-                    <TouchableOpacity
-                        onPress={() => onClose()}
-                        style={styles.closeIcon}>
-                        <Icon
-                            name="close-outline"
-                            height={30}
-                            width={30}
-                            fill={COLORS.tertiary}
-                        />
-                    </TouchableOpacity>
-                    <FlatList
-                        keyExtractor={item => item.id}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
-                        pagingEnabled
-                        horizontal
-                        initialScrollIndex={currentIndex}
-                        onScroll={e => {
-                            const x = e.nativeEvent.contentOffset.x;
-                            setCurrentIndex(Math.round(x / width));
-                        }}
-                        data={items}
-                        renderItem={({item, index}) => {
-                            return (
-                                <ZoomAbleImage
-                                    imageUrl={
-                                        item?.mediaAsset?.og || item.media
-                                    }
-                                    style={styles.image}
-                                    key={index}
-                                />
-                            );
-                        }}
-                    />
-                    <View style={styles.imageFooterContainer}>
-                        <Text
-                            style={styles.imageFooterText}
-                            title={`${(currentIndex ?? 0) + 1} / ${
-                                items.length
-                            }`}
-                        />
-                    </View>
-                </View>
-            </GestureHandlerRootView>
+	    <View style={styles.container}>
+		<TouchableOpacity
+		    onPress={() => onClose()}
+		    style={styles.closeIcon}>
+		    <Icon
+			name="close-outline"
+			height={30}
+			width={30}
+			fill={COLORS.tertiary}
+		    />
+		</TouchableOpacity>
+		<FlatList
+		    keyExtractor={item => item.id}
+		    showsVerticalScrollIndicator={false}
+		    showsHorizontalScrollIndicator={false}
+		    pagingEnabled
+		    horizontal
+		    initialScrollIndex={currentIndex}
+		    onScroll={e => {
+			const x = e.nativeEvent.contentOffset.x;
+			setCurrentIndex(Math.round(x / width));
+		    }}
+		    data={items}
+		    renderItem={({item, index}) => {
+			return (
+			    <ZoomAbleImage
+				imageUrl={
+				    item?.mediaAsset?.og || item.media
+				}
+				style={styles.image}
+				key={index}
+			    />
+			);
+		    }}
+		/>
+		<View style={styles.imageFooterContainer}>
+		    <Text
+			style={styles.imageFooterText}
+			title={`${(currentIndex ?? 0) + 1} / ${
+			    items.length
+			}`}
+		    />
+		</View>
+	    </View>
         </Modal>
     );
 };

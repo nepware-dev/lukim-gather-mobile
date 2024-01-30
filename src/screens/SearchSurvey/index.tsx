@@ -2,12 +2,13 @@ import React, {useState, useCallback, useEffect, useMemo} from 'react';
 import {
     View,
     TextInput,
+    TouchableOpacity,
     ListRenderItem,
     useWindowDimensions,
+    FlatList,
 } from 'react-native';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {Icon} from 'react-native-eva-icons';
 
 import SurveyItem from 'components/SurveyItem';

@@ -51,6 +51,11 @@ jobs:
             - name: Gradle Wrapper Validation
               uses: gradle/wrapper-validation-action@v1
 
+            - name: ccache
+              uses: hendrikmuhs/ccache-action@v1.2
+              with:
+                create-symlink: true
+
             - name: Set up JDK
               uses: actions/setup-java@v3
               with:

@@ -6,8 +6,8 @@ import {
     PermissionsAndroid,
     Platform,
     Linking,
+    TouchableOpacity,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Mapbox, {MapView, Camera, ShapeSource} from '@rnmapbox/maps';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -31,9 +31,12 @@ import sentimentName from 'utils/sentimentName';
 import Toast from 'utils/toast';
 
 import type {StackNavigationProp} from '@react-navigation/stack';
+import {OfflinePackError, OfflineProgressStatus} from '@rnmapbox/maps/lib/typescript/src/modules/offline/offlineManager';
+import OfflinePack from '@rnmapbox/maps/lib/typescript/src/modules/offline/OfflinePack';
 import type {StackParamList} from 'navigation';
 import type {HappeningSurveyType} from '@generated/types';
 import type {ProjectType} from '@generated/types';
+import type {FeatureCollection, Geometry, GeoJsonProperties} from 'geojson';
 import type {LocalCategoryType} from 'services/data/surveyCategory';
 
 import styleJSON from 'assets/map/style.json';
@@ -42,8 +45,6 @@ import {Cluster} from './Cluster';
 import {UserLocation} from './UserLocation';
 import OfflineLayers from './OfflineLayers';
 import styles from './styles';
-
-Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 interface Props {
     showCluster?: boolean;
@@ -55,6 +56,9 @@ interface Props {
     onSurveyEntryPress?: (survey: HappeningSurveyType) => void;
 }
 
+Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
+
+const STYLE_URL = Mapbox.StyleURL.Street;
 const mapViewStyles = JSON.stringify(styleJSON);
 
 const Map: React.FC<Props> = ({
@@ -72,7 +76,11 @@ const Map: React.FC<Props> = ({
     const navigation = useNavigation<StackNavigationProp<StackParamList>>();
     const {user} = useSelector((state: RootStateOrAny) => state.auth);
 
-    const [isOffline, setIsOffline] = useState(true);
+    const [isOffline, setIsOffline] = useState(false);
+
+    useEffect(() => {
+        setIsOffline(!netInfo.isInternetReachable);
+    }, [netInfo.isInternetReachable]);
 
     const [isOpenExport, setIsOpenExport] = useState(false);
 
@@ -130,24 +138,31 @@ const Map: React.FC<Props> = ({
     }, [selectedTab, surveyData, user?.id, categoryFilterId, projectFilterId]);
 
     const manageOffline = useCallback(
-        async packName => {
+        async (packName: string) => {
             try {
-                const offlinePack = await Mapbox.offlineManager.getPack(
-                    packName,
-                );
+                const offlinePack =
+                    await Mapbox.offlineManager.getPack(packName);
                 if (!offlinePack) {
                     if (netInfo.isInternetReachable) {
                         setIsOffline(false);
-                        return Mapbox.offlineManager.createPack({
-                            name: packName,
-                            styleURL: 'mapbox://styles/mapbox/streets-v11',
-                            minZoom: 0,
-                            maxZoom: 10,
-                            bounds: [
-                                [156.4715, -1.5917],
-                                [140.7927, -12.1031],
-                            ],
-                        });
+                        const progressListener = (offlineRegion: OfflinePack, status: OfflineProgressStatus) =>
+                            console.log(offlineRegion, status);
+                        const errorListener = (offlineRegion: OfflinePack, err: OfflinePackError) =>
+                            console.log(offlineRegion, err);
+                        return Mapbox.offlineManager.createPack(
+                            {
+                                name: packName,
+                                styleURL: STYLE_URL,
+                                minZoom: 0,
+                                maxZoom: 10,
+                                bounds: [
+                                    [156.4715, -1.5917],
+                                    [140.7927, -12.1031],
+                                ],
+                            },
+                            progressListener,
+                            errorListener,
+                        );
                     }
                 } else {
                     setIsOffline(false);
@@ -162,8 +177,7 @@ const Map: React.FC<Props> = ({
     const mapRef = useRef() as React.MutableRefObject<MapView>;
     const viewShotRef = useRef<any>();
     const mapCameraRef = useRef() as React.MutableRefObject<Camera>;
-    const shapeSourceRef =
-        useRef() as React.MutableRefObject<ShapeSource>;
+    const shapeSourceRef = useRef() as React.MutableRefObject<ShapeSource>;
 
     const [currentLocation, setCurrentLocation] = useState<
         number[] | undefined
@@ -187,7 +201,7 @@ const Map: React.FC<Props> = ({
             if (coordinates?.length) {
                 mapCameraRef.current.setCamera({
                     zoomLevel: 13,
-                    animationDuration: 3000,
+                    animationDuration: isStatic ? 0 : 3000,
                     centerCoordinate: coordinates,
                 });
             }
@@ -222,18 +236,12 @@ const Map: React.FC<Props> = ({
         handleLocationPress();
     }, [manageOffline, handleLocationPress]);
 
-    useEffect(() => {
-        if (netInfo.isInternetReachable) {
-            setIsOffline(false);
-        }
-    }, [netInfo.isInternetReachable]);
-
     const onRegionDidChange = useCallback(() => {
         setMapCameraProps({});
     }, []);
 
     const handleSurveyPolyShapePress = useCallback(
-        shape => {
+       async (shape: FeatureCollection<Geometry, GeoJsonProperties>) => {
             if (isStatic && !onSurveyEntryPress) {
                 return;
             }
@@ -267,7 +275,7 @@ const Map: React.FC<Props> = ({
     );
 
     const handleSurveyShapePress = useCallback(
-        async shape => {
+        async (shape: FeatureCollection<Geometry, GeoJsonProperties>) => {
             if (isStatic && !onSurveyEntryPress) {
                 return;
             }
@@ -433,11 +441,13 @@ const Map: React.FC<Props> = ({
                 <MapView
                     ref={mapRef}
                     style={styles.map}
-                    onMapIdle={onRegionDidChange}
+                    styleURL={STYLE_URL}
+                    onRegionDidChange={onRegionDidChange}
                     onDidFinishLoadingStyle={handleFinishMapLoad}
-                    styleJSON={isOffline ? mapViewStyles : ''}
                     compassViewMargins={{x: 20, y: hideHeader ? 20 : 170}}
-                    scaleBarEnabled={false}>
+                    scaleBarEnabled={false}
+                    {...(isOffline ? {styleJSON: mapViewStyles} : {})}
+                    {...(isStatic ? {scrollEnabled: false} : {})}>
                     <Camera
                         defaultSettings={{
                             centerCoordinate: currentLocation,

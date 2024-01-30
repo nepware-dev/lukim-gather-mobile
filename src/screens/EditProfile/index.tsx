@@ -1,12 +1,11 @@
 import React, {useEffect, useCallback, useState} from 'react';
-import {View, Image, Platform, Keyboard} from 'react-native';
+import {View, Image, Platform, Keyboard, TouchableOpacity} from 'react-native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from 'react-native-eva-icons';
 import {useMutation} from '@apollo/client';
 import {ReactNativeFile} from 'apollo-upload-client';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 import Text from 'components/Text';
 import InputField from 'components/InputField';

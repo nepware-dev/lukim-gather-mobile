@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Image, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Image, View, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import { useLazyQuery } from '@apollo/client';

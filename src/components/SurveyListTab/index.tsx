@@ -1,6 +1,5 @@
 import React, {useMemo, useCallback} from 'react';
-import {View, useWindowDimensions} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, useWindowDimensions, TouchableOpacity} from 'react-native';
 import {RootStateOrAny, useSelector} from 'react-redux';
 
 import Text from 'components/Text';

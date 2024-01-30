@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from 'react-native-eva-icons';
 

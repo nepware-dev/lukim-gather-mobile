@@ -1,5 +1,5 @@
 import React from 'react';
-import Mapbox from '@rnmapbox/maps';
+import {LocationPuck} from '@rnmapbox/maps';
 
 interface UserLocationProps {
     visible: boolean;
@@ -7,11 +7,10 @@ interface UserLocationProps {
 
 export const UserLocation = ({visible}: UserLocationProps) => {
     return (
-        <Mapbox.UserLocation
+        <LocationPuck
             visible={visible}
-            renderMode="native"
-            androidRenderMode="compass"
-            showsUserHeadingIndicator
+	    puckBearing="heading"
+	    puckBearingEnabled
         />
     );
 };

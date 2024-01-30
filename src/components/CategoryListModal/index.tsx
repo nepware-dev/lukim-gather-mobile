@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {View, Image, Pressable, useWindowDimensions} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {View, Image, Pressable, useWindowDimensions, FlatList} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 
 import Modal from 'components/Modal';

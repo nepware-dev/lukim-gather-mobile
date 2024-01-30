@@ -22,10 +22,11 @@ class MainApplication : Application(), ReactApplication {
         }
 
         override fun getPackages(): List<ReactPackage> {
-            val packages: List<ReactPackage> = PackageList(this).packages
+            val packages: List<ReactPackage> = PackageList(this).packages.apply {
             // Packages that cannot be autolinked yet can be added manually here, for example:
-            // packages.add(new MyReactNativePackage());
-            SplashScreenReactPackage()
+            // add(MyReactNativePackage())
+	    // add(SplashScreenReactPackage())
+	    }
             return packages
         }
 

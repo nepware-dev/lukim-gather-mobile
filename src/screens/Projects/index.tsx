@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {View, Text as RNText} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {View, Text as RNText, FlatList} from 'react-native';
 import {format} from 'date-fns';
 
 import Accordion from 'components/Accordion';

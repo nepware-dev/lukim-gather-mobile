@@ -1,7 +1,6 @@
 import {formatDistanceToNow} from 'date-fns';
 import React, {useCallback} from 'react';
-import {FlatList, Image, ListRenderItem, RefreshControl, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {FlatList, Image, ListRenderItem, RefreshControl, View, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useLazyQuery, useMutation} from '@apollo/client';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';

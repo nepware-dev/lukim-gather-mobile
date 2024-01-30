@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
-import {Image, View, Platform, Switch} from 'react-native';
+import {Image, View, Platform, Switch, TouchableOpacity} from 'react-native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
 import {
     useFocusEffect,
@@ -8,7 +8,6 @@ import {
     type RouteProp,
 } from '@react-navigation/native';
 import {useMutation} from '@apollo/client';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Image as ImageObj} from 'react-native-image-crop-picker';
 import {Icon} from 'react-native-eva-icons';
 import uuid from 'react-native-uuid';
