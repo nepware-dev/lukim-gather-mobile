@@ -1,4 +1,4 @@
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import {
     persistStore,
     persistReducer,
@@ -13,18 +13,6 @@ import {
 import {cacheStorage} from './storage';
 import rootReducer from './rootReducer';
 
-const middlewares = [];
-
-if (__DEV__) {
-    //const {logger} = require('redux-logger');
-    //middlewares.push(logger);
-}
-
-if (__DEV__ && !process.env.JEST_WORKER_ID) {
-    //const createDebugger = require('redux-flipper').default;
-    //middlewares.push(createDebugger());
-}
-
 const persistConfig = {
     key: 'root',
     storage: cacheStorage,
@@ -35,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
     reducer: persistedReducer,
     devTools: __DEV__,
-    middleware: [
+    middleware: (getDefaultMiddleware) => ([
         ...getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: [
@@ -47,9 +35,8 @@ const store = configureStore({
                     REGISTER,
                 ],
             },
-        }),
-        ...middlewares,
-    ],
+        })
+    ]),
 });
 const persistor = persistStore(store);
 

@@ -1,11 +1,11 @@
 import {Platform} from 'react-native';
 import RNFetchBlob from 'react-native-blob-util';
-import uuid from 'react-native-uuid';
+import {v4 as uuidv4} from 'uuid';
 
 export const b64toPath = async (_dataURI: string) => {
     const dataURIPattern = /data:image\/.*;base64,/;
     _dataURI = _dataURI.split(dataURIPattern)[1];
-    const filePath = RNFetchBlob.fs.dirs.CacheDir + `/${uuid.v4()}.jpg`;
+    const filePath = RNFetchBlob.fs.dirs.CacheDir + `/${uuidv4()}.jpg`;
     await RNFetchBlob.fs.writeFile(filePath, _dataURI, 'base64');
     return Platform.OS === 'android' ? 'file://' + filePath : filePath;
 };
