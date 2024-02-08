@@ -8,7 +8,7 @@ import {
 import {RootStateOrAny, useSelector} from 'react-redux';
 import {useMutation} from '@apollo/client';
 import {Icon} from 'react-native-eva-icons';
-import uuid from 'react-native-uuid';
+import {v4 as uuidv4} from 'uuid';
 
 import AudioPicker from 'components/AudioPicker';
 import Text from 'components/Text';
@@ -56,7 +56,7 @@ import styles from './styles';
 
 const responseToFile = (res: Scalars['Upload']) => {
     const image = {
-        name: uuid.v4() + '.' + (res.path.split('.')?.pop() || ''),
+        name: uuidv4() + '.' + (res.path.split('.')?.pop() || ''),
         type: res.mime,
         uri: Platform.OS === 'ios' ? res.path.replace('file://', '') : res.path,
     };
@@ -322,7 +322,7 @@ const EditHappeningSurvey = () => {
             if (response?.path) {
                 response = [response];
             }
-            response.forEach((res: any) => (res.name = uuid.v4()));
+            response.forEach((res: any) => (res.name = uuidv4()));
             setAttachment([...response, ...attachment]);
         },
         [attachment],

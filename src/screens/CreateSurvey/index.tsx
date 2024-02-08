@@ -10,7 +10,7 @@ import {
 import {useMutation} from '@apollo/client';
 import {Image as ImageObj} from 'react-native-image-crop-picker';
 import {Icon} from 'react-native-eva-icons';
-import uuid from 'react-native-uuid';
+import {v4 as uuidv4} from 'uuid';
 import Geolocation from 'react-native-geolocation-service';
 import {RNFetchBlobFile} from 'react-native-blob-util';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -71,7 +71,7 @@ import styles from './styles';
 
 const responseToFile = (res: ImageObj) => {
     const image = {
-        name: uuid.v4() + '.' + (res.path.split('.')?.pop() || ''),
+        name: uuidv4() + '.' + (res.path.split('.')?.pop() || ''),
         type: res.mime,
         uri: Platform.OS === 'ios' ? res.path.replace('file://', '') : res.path,
     };
@@ -191,7 +191,7 @@ const CreateHappeningSurvey = () => {
         }
         setProcessing(true);
         let surveyInput: HappeningSurveyInput = {
-            id: uuid.v4(),
+            id: uuidv4(),
             title: title,
             description: description,
             sentiment: activeFeel,
