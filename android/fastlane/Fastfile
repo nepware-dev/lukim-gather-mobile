@@ -57,9 +57,27 @@ platform :android do
   end
 
   desc "Build APK file"
-  lane :build do
+  lane :assemble do
     gradle(
        task: "clean assemble",
+       build_type: "Release",
+       properties: {
+         "android.injected.signing.store.file" => ENV['SIGNING_STORE_FILE'],
+         "android.injected.signing.store.password" => ENV['SIGNING_STORE_PASSWORD'],
+         "android.injected.signing.key.alias" => ENV['SIGNING_KEY_ALIAS'],
+         "android.injected.signing.key.password" => ENV['SIGNING_KEY_PASSWORD'],
+       }
+    )
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Build AAB file"
+  lane :bundle do
+    increment_version_code
+    gradle(
+       task: "clean bundle",
        build_type: "Release",
        properties: {
          "android.injected.signing.store.file" => ENV['SIGNING_STORE_FILE'],
