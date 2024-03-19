@@ -55,6 +55,7 @@ jobs:
               uses: hendrikmuhs/ccache-action@v1.2
               with:
                 create-symlink: true
+                key: ${{ matrix.os }}-${{ matrix.type }}
 
             - name: Set up JDK
               uses: actions/setup-java@v3
@@ -84,15 +85,23 @@ jobs:
             - name: Run Fastlane
               uses: maierj/fastlane-action@v3.0.0
               with:
-                  lane: ${{ github.ref_type == 'tag' && 'beta' || 'build' }}
+                  lane: ${{ github.ref_type == 'tag' && 'assemble' || 'bundle' }}
                   subdirectory: 'android'
               env:
                   FASTLANE_HIDE_CHANGELOG: true
 
-            - name: Archive production artifacts
+            - name: Archive apk artifacts
               uses: actions/upload-artifact@v3
               with:
                   name: apk
                   path: |
                     android/app/build/outputs/apk/release
                   retention-days: 14
+
+            - name: Archive bundle artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                  name: bundle
+                  path: |
+                    android/app/build/outputs/bundle/release
+                  retention-days: 90

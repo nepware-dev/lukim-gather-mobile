@@ -15,7 +15,7 @@ on:
 
 jobs:
     build:
-        runs-on: macOS-latest
+        runs-on: macOS-13
         environment:
             name: ${{ github.ref_type == 'tag' && 'production' || 'staging' }}
 
@@ -43,6 +43,7 @@ jobs:
               uses: hendrikmuhs/ccache-action@v1.2
               with:
                 create-symlink: true
+                key: ${{ matrix.os }}-${{ matrix.type }}
 
             - name: Cache Pods
               uses: actions/cache@v3

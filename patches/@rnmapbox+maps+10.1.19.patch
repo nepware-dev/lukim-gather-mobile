@@ -1,0 +1,8 @@
+diff --git a/node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXChangeLineOffsetsShapeAnimatorModule.m b/node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXChangeLineOffsetsShapeAnimatorModule.mm
+similarity index 100%
+rename from node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXChangeLineOffsetsShapeAnimatorModule.m
+rename to node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXChangeLineOffsetsShapeAnimatorModule.mm
+diff --git a/node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXMovePointShapeAnimatorModule.m b/node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXMovePointShapeAnimatorModule.mm
+similarity index 100%
+rename from node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXMovePointShapeAnimatorModule.m
+rename to node_modules/@rnmapbox/maps/ios/RNMBX/ShapeAnimators/RNMBXMovePointShapeAnimatorModule.mm
