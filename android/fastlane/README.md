@@ -31,13 +31,21 @@ Runs all the tests
 
 Submit a new Beta Build
 
-### android build
+### android assemble
 
 ```sh
-[bundle exec] fastlane android build
+[bundle exec] fastlane android assemble
 ```
 
 Build APK file
+
+### android bundle
+
+```sh
+[bundle exec] fastlane android bundle
+```
+
+Build AAB file
 
 ### android deploy
 
