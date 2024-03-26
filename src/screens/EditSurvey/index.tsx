@@ -382,13 +382,13 @@ const EditHappeningSurvey = () => {
 
     useEffect(() => {
         if (coordinates && coordinates.polygon) {
-            setLocationDetail('Boundaries');
+            setLocationDetail('Boundary');
         } else if (coordinates && coordinates.point) {
             setLocationDetail(`${coordinates.point.join(', ')}`);
         } else if (surveyItem.location?.coordinates) {
             setLocationDetail(surveyItem.location.coordinates.join(', '));
         } else if (surveyItem.boundary?.coordinates) {
-            setLocationDetail('Boundaries');
+            setLocationDetail('Boundary');
         } else {
             setLocationDetail('Choose the location');
         }
@@ -445,7 +445,7 @@ const EditHappeningSurvey = () => {
                             locationDetail
                                 ? locationDetail
                                 : surveyItem.boundary?.coordinates
-                                ? 'Boundaries'
+                                ? 'Boundary'
                                 : ''
                         }
                     />

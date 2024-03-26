@@ -85,7 +85,7 @@ const UpdateSurvey = () => {
         if (surveyItem.location?.coordinates) {
             return String(surveyItem.location.coordinates);
         } else if (surveyItem.boundary) {
-            return _('Boundaries');
+            return _('Boundary');
         }
         return '';
     }, [surveyItem]);

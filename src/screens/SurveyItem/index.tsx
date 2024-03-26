@@ -456,7 +456,8 @@ const SurveyItem = () => {
         const fileName = `${
             surveyData?.title || 'UntitledSurvey'
         }_${Date.now()}.csv`;
-        const path = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
+        const dirToSave = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
+        const path = `${dirToSave}/${fileName}`;
         RNFetchBlob.fs.writeFile(path, csv, 'utf8').then(() => {
             if (Platform.OS === 'android') {
                 RNFetchBlob.android.addCompleteDownload({

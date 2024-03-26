@@ -404,7 +404,8 @@ const Map: React.FC<Props> = ({
         ];
         const csv = jsonToCSV(dt, config);
         const fileName = `surveys_${Date.now()}.csv`;
-        const path = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
+        const dirToSave = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
+        const path = `${dirToSave}/${fileName}`;
         RNFetchBlob.fs.writeFile(path, csv, 'utf8').then(() => {
             if (Platform.OS === 'android') {
                 RNFetchBlob.android.addCompleteDownload({
