@@ -117,6 +117,7 @@ const ImageModal: React.FC<PhotoProps> = ({
 		    pagingEnabled
 		    horizontal
 		    initialScrollIndex={currentIndex}
+		    onScrollToIndexFailed={()=>{}}
 		    onScroll={e => {
 			const x = e.nativeEvent.contentOffset.x;
 			setCurrentIndex(Math.round(x / width));
