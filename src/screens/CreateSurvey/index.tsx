@@ -172,7 +172,7 @@ const CreateHappeningSurvey = () => {
             initializeLocation();
         } else {
             if (location && location.polygon) {
-                setLocationDetail('Boundaries');
+                setLocationDetail('Boundary');
             } else if (location && location.point) {
                 setLocationDetail('Your location');
             }

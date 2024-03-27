@@ -330,7 +330,7 @@ export const DELETE_ACCOUNT = gql`
 `;
 
 export const UPLOAD_IMAGE = gql`
-    mutation UploadMedia($title: String!, $type: String!, $media: Upload) {
+    mutation UploadMedia($title: String!, $type: String!, $media: Upload!) {
         uploadMedia(title: $title, type: $type, media: $media) {
             ok
             result {
