@@ -165,12 +165,12 @@ const Surveys = () => {
                         return;
                     }
                 }
-                const newURI = await CameraRoll.save(uri, {
+                const asset = await CameraRoll.saveAsset(uri, {
                     type: 'photo',
                     album: 'Lukim Gather',
                 });
                 Toast.show(_('Saved image in gallery!'));
-                Linking.openURL(newURI);
+                Linking.openURL(asset.node.image.uri);
                 return setIsOpenExport(false);
             });
         } catch (error) {
