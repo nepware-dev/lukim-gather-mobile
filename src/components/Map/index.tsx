@@ -404,7 +404,7 @@ const Map: React.FC<Props> = ({
         ];
         const csv = jsonToCSV(dt, config);
         const fileName = `surveys_${Date.now()}.csv`;
-        const dirToSave = Platform.OS === 'ios' ? `${RNFetchBlob.fs.dirs.DocumentDir}/Downloads` : RNFetchBlob.fs.dirs.DownloadDir;
+        const dirToSave = Platform.OS === 'ios' ? `${RNFetchBlob.fs.dirs.DocumentDir}/Downloads/LukimGather` : RNFetchBlob.fs.dirs.DownloadDir;
         const path = `${dirToSave}/${fileName}`;
         RNFetchBlob.fs.writeFile(path, csv, 'utf8').then(() => {
             if (Platform.OS === 'android') {
@@ -415,6 +415,17 @@ const Map: React.FC<Props> = ({
                     path: path,
                     showNotification: true,
                 });
+                RNFetchBlob
+                    .MediaCollection
+                    .copyToMediaStore(
+                    {
+                        name: fileName,
+                        parentFolder: 'LukimGather',
+                        mimeType: 'text/csv'
+                    },
+                    'Download',
+                    path
+                );
             } else if (Platform.OS === 'ios') {
                 RNFetchBlob.ios.previewDocument(path);
             }
