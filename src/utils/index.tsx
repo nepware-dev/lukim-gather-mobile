@@ -33,8 +33,6 @@ export const jsonToCSV = (array: Array<any>, config: Array<Config>) => {
                 .join(',');
         })
         .join('\n');
-    console.log('');
-    console.log('csv', rows);
     return header + '\n' + rows;
 };
 

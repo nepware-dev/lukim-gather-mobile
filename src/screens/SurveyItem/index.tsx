@@ -580,7 +580,7 @@ const SurveyItem = () => {
             )}
             {loading ? (
                 <Loader loading style={styles.loader} />
-            ) : surveyData?.title ? (
+            ) : surveyData?.id ? (
                 <ViewShot ref={viewShotRef} style={styles.container}>
                     <View style={styles.category}>
                         <Image
@@ -624,7 +624,10 @@ const SurveyItem = () => {
                     </View>
                     <Header title={_('Name')} />
                     <View style={styles.content}>
-                        <Text style={styles.name} title={surveyData?.title} />
+                        <Text
+                            style={styles.name}
+                            title={surveyData?.title || 'No Title Found.'}
+                        />
                     </View>
                     <Header title={_('Photos')} />
                     <View style={styles.photosWrapper}>
@@ -664,7 +667,10 @@ const SurveyItem = () => {
                     <View style={styles.content}>
                         <Text
                             style={styles.description}
-                            title={surveyData?.description}
+                            title={
+                                surveyData?.description ||
+                                'No Description Found.'
+                            }
                         />
                     </View>
                     <Header title={_('Location')} />

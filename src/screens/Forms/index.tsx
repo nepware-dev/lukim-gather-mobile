@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback, useMemo, useState} from 'react';
 import {View, FlatList, Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
 
 import Text from 'components/Text';
@@ -127,9 +127,11 @@ const Forms = () => {
         return (res.data?.me?.projects || []) as ProjectType[];
     }, [res.data]);
 
-    useEffect(() => {
-        refetch();
-    }, [refetch]);
+    useFocusEffect(
+        useCallback(() => {
+            refetch();
+        }, [refetch]),
+    );
 
     const renderFormMenuItem = useCallback(
         listProps => <FormMenuItem {...listProps} projects={projects} />,

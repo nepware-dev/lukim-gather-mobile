@@ -40,7 +40,10 @@ const SurveyItem = ({item, onPress}: SurveyItemProps) => {
 
     return (
         <TouchableOpacity onPress={onPressItem} style={styles.item}>
-            <Text style={styles.title} title={item.title} />
+            <Text
+                style={styles.title}
+                title={_(item.title || 'No Title Found.')}
+            />
             <View style={styles.bottomData}>
                 <View style={styles.category}>
                     <Image

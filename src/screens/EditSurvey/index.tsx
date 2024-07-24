@@ -149,6 +149,10 @@ const EditHappeningSurvey = () => {
     });
 
     const handlePublish = useCallback(async () => {
+        if (!title || (typeof title === 'string' && !title.trim())) {
+            Toast.error(_('Title field is required.'));
+            return;
+        }
         let surveyInput: UpdateHappeningSurveyInput = {
             title: title,
             description: description,
