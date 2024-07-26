@@ -60,6 +60,7 @@ export default {
             text2: options?.text2,
         });
     },
+    hide: () => Toast.hide(),
     error: (text1: string, text2?: string, options?: ToastOptions) => {
         Toast.show({
             type: 'error',
