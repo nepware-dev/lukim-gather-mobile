@@ -115,7 +115,7 @@ dependencies {
     api("com.squareup.okhttp3:logging-interceptor")
 
     implementation("com.facebook.react:flipper-integration")
-    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:$rootProject.ext.androidKtxVersion'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
