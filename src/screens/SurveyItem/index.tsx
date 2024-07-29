@@ -676,19 +676,22 @@ const SurveyItem = () => {
                             }
                         />
                     </View>
-                    <Header title={_('Location')} />
-                    <View style={styles.content}>
-                        <View
-                            onTouchStart={() => setScrollEnabled(false)}
-                            onTouchEnd={() => setScrollEnabled(true)}
-                            style={styles.mapContainer}>
-                            <Map
-                                hideHeader
-                                isStatic
-                                surveyData={[surveyData]}
-                                showCluster
-                                locationBarStyle={styles.locationBar}
-                            />
+                    {/* FIXME: export image including map */}
+                    <View style={isOpenExport && {display: 'none'}}>
+                        <Header title={_('Location')} />
+                        <View style={styles.content}>
+                            <View
+                                onTouchStart={() => setScrollEnabled(false)}
+                                onTouchEnd={() => setScrollEnabled(true)}
+                                style={styles.mapContainer}>
+                                <Map
+                                    hideHeader
+                                    isStatic
+                                    surveyData={[surveyData]}
+                                    showCluster
+                                    locationBarStyle={styles.locationBar}
+                                />
+                            </View>
                         </View>
                     </View>
                     <Header title={_('Published Anonymously')} />

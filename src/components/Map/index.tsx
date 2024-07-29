@@ -348,13 +348,15 @@ const Map: React.FC<Props> = ({
     const onClickExportImage = useCallback(async () => {
         try {
             await viewShotRef.current.capture().then(async (uri: any) => {
+                let imageUri = uri;
                 if (Platform.OS === 'android') {
                     const granted = getPermissionAndroid();
                     if (!granted) {
                         return;
                     }
+                    imageUri = await mapRef.current.takeSnap(true);
                 }
-                const newURI = await CameraRoll.save(uri, {
+                const newURI = await CameraRoll.save(imageUri, {
                     type: 'photo',
                     album: 'Lukim Gather',
                 });
