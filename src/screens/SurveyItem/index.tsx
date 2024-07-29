@@ -106,6 +106,8 @@ const SurveyItem = () => {
         'latest',
     );
 
+    const [scrollEnabled, setScrollEnabled] = useState<boolean>(true);
+
     const {
         loading,
         data: historyItemData,
@@ -549,6 +551,7 @@ const SurveyItem = () => {
         <KeyboardAwareScrollView
             style={styles.container}
             showsVerticalScrollIndicator={false}
+            scrollEnabled={scrollEnabled}
             stickyHeaderIndices={
                 versionsData.length > 1 ? (showUpdate ? [1] : [0]) : []
             }>
@@ -675,7 +678,10 @@ const SurveyItem = () => {
                     </View>
                     <Header title={_('Location')} />
                     <View style={styles.content}>
-                        <View style={styles.mapContainer}>
+                        <View
+                            onTouchStart={() => setScrollEnabled(false)}
+                            onTouchEnd={() => setScrollEnabled(true)}
+                            style={styles.mapContainer}>
                             <Map
                                 hideHeader
                                 isStatic
