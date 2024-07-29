@@ -1,6 +1,13 @@
 import {formatDistanceToNow} from 'date-fns';
-import React, {useCallback} from 'react';
-import {FlatList, Image, ListRenderItem, RefreshControl, View, TouchableOpacity} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+    FlatList,
+    Image,
+    ListRenderItem,
+    RefreshControl,
+    View,
+    TouchableOpacity,
+} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useLazyQuery, useMutation} from '@apollo/client';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -29,11 +36,17 @@ const NoNotification = () => {
                 style={styles.emptyIcon}
                 source={require('assets/icons/no-notification.png')}
             />
-            <Text style={styles.emptyTitle} title="Oops! No Notification Found" />
-            <Text style={styles.emptyMessage} title="You currently have no notifications. We'll notify you when something new arrives." />
+            <Text
+                style={styles.emptyTitle}
+                title="Oops! No Notification Found"
+            />
+            <Text
+                style={styles.emptyMessage}
+                title="You currently have no notifications. We'll notify you when something new arrives."
+            />
         </View>
-    )
-}
+    );
+};
 
 type IconType = {
     happening_survey_approved: string;
@@ -53,38 +66,74 @@ const keyExtractor: KeyExtractor = item => item.id;
 const Notifications = () => {
     const {loading, data, refetch} = useQuery(GET_NOTIFICATIONS);
     const [getHappeningSurvey] = useLazyQuery(GET_HAPPENING_SURVEY);
-    const [markAsRead] = useMutation(MARK_AS_READ);
+    const [markAsRead, {loading: markAsReadStatus}] = useMutation(MARK_AS_READ);
+    const [isScreenBlurred, setIsScreenBlurred] = useState(false);
     const navigation = useNavigation();
 
     const handleRefresh = useCallback(() => {
         refetch();
+        setIsScreenBlurred(false);
+        const unsubscribe = navigation.addListener('blur', () => {
+            setIsScreenBlurred(true);
+        });
+        return () => unsubscribe();
     }, [refetch]);
 
     useFocusEffect(handleRefresh);
 
     const handleNotificationPress = useCallback(
-        item => {
-            markAsRead({variables: {id: Number(item.id)}});
-            if (item?.notificationType.startsWith('happening_survey')) {
-                getHappeningSurvey({
-                    variables: {id: item.actionObjectObjectId.toString()},
-                }).then(({data: surveyItem}) => {
-                    if(!surveyItem?.happeningSurveys[0]) {
-                        return Toast.error(_('Not found!'), 'Survey has been deleted !');
-                    }
-                    navigation.navigate('SurveyItem', {
-                        item: surveyItem?.happeningSurveys[0],
+        async (item: NotificationType) => {
+            Toast.hide();
+
+            if (isScreenBlurred) return;
+
+            const markNotificationRead = async (item: NotificationType) => {
+                if (!item?.hasRead) {
+                    markAsRead({variables: {id: Number(item.id)}});
+                }
+            };
+
+            const handleSurveyNavigation = async (surveyId: string) => {
+                try {
+                    getHappeningSurvey({
+                        variables: {id: surveyId},
+                    }).then(({data: surveyItem}) => {
+                        if (!surveyItem?.happeningSurveys[0]) {
+                            return Toast.error(
+                                _('Not found!'),
+                                'Survey has been deleted !',
+                            );
+                        }
+                        Toast.hide();
+                        navigation.navigate('SurveyItem', {
+                            item: surveyItem?.happeningSurveys[0],
+                        });
                     });
-                });
+                } catch (error) {
+                    Toast.error(
+                        _('Not found!'),
+                        'Unable to retrieve survey data.',
+                    );
+                }
+            };
+
+            await markNotificationRead(item);
+
+            if (item?.notificationType.startsWith('happening_survey')) {
+                await handleSurveyNavigation(
+                    item.actionObjectObjectId.toString(),
+                );
             }
         },
-        [getHappeningSurvey, markAsRead, navigation],
+        [getHappeningSurvey, markAsRead, navigation, isScreenBlurred],
     );
 
     const renderItem: ListRenderItem<NotificationType> = useCallback(
         ({item}: {item: NotificationType}) => (
             <TouchableOpacity
                 onPress={() => handleNotificationPress(item)}
+                activeOpacity={0.7}
+                disabled={markAsReadStatus}
                 style={cs(styles.notificationContainer, [
                     styles.notificationUnread,
                     !item.hasRead,
@@ -119,11 +168,7 @@ const Notifications = () => {
             <FlatList
                 data={data?.notifications || []}
                 keyExtractor={keyExtractor}
-                ListEmptyComponent={
-                    loading ? null : (
-                        <NoNotification />
-                    )
-                }
+                ListEmptyComponent={loading ? null : <NoNotification />}
                 refreshControl={
                     <RefreshControl
                         refreshing={loading}
