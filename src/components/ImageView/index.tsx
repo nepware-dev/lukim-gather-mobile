@@ -1,5 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, Image, Modal, TouchableOpacity, Dimensions, FlatList, TouchableWithoutFeedback} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+    View,
+    Image,
+    Modal,
+    TouchableOpacity,
+    Dimensions,
+    FlatList,
+    TouchableWithoutFeedback,
+} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useNetInfo} from '@react-native-community/netinfo';
 
@@ -21,6 +29,7 @@ interface PhotoProps {
     isVisible: boolean;
     items: GalleryType[];
     selectedIndex: number | null;
+    setSeletedIndex: React.Dispatch<React.SetStateAction<number | null>>;
     onClose: () => void;
 }
 
@@ -55,23 +64,23 @@ const ImageItem: React.FC<{
 
     return (
         <View style={styles.imageContainer}>
-            <TouchableWithoutFeedback  onPress={handlePress}>
-		<View>
-		    <Image
-			source={
-			    {uri: item?.mediaAsset?.sm as string} ||
-			    require('assets/images/category-placeholder.png')
-			}
-			style={styles.images}
-			onError={handleImageError}
-			onLoad={handleImageLoad}
-		    />
-		    {Boolean(error) && (
-			<View style={styles.errorTextContainer}>
-			    <Text title={error} style={styles.errorText} />
-			</View>
-		    )}
-		</View>
+            <TouchableWithoutFeedback onPress={handlePress}>
+                <View>
+                    <Image
+                        source={
+                            {uri: item?.mediaAsset?.sm as string} ||
+                            require('assets/images/category-placeholder.png')
+                        }
+                        style={styles.images}
+                        onError={handleImageError}
+                        onLoad={handleImageLoad}
+                    />
+                    {Boolean(error) && (
+                        <View style={styles.errorTextContainer}>
+                            <Text title={error} style={styles.errorText} />
+                        </View>
+                    )}
+                </View>
             </TouchableWithoutFeedback>
         </View>
     );
@@ -81,16 +90,9 @@ const ImageModal: React.FC<PhotoProps> = ({
     isVisible,
     items,
     selectedIndex,
+    setSeletedIndex,
     onClose,
 }) => {
-    const [currentIndex, setCurrentIndex] = useState<number | null>(
-        selectedIndex,
-    );
-
-    useEffect(() => {
-        setCurrentIndex(selectedIndex);
-    }, [selectedIndex]);
-
     return (
         <Modal
             animationType="slide"
@@ -99,51 +101,52 @@ const ImageModal: React.FC<PhotoProps> = ({
             onRequestClose={() => {
                 onClose();
             }}>
-	    <View style={styles.container}>
-		<TouchableOpacity
-		    onPress={() => onClose()}
-		    style={styles.closeIcon}>
-		    <Icon
-			name="close-outline"
-			height={30}
-			width={30}
-			fill={COLORS.tertiary}
-		    />
-		</TouchableOpacity>
-		<FlatList
-		    keyExtractor={item => item.id}
-		    showsVerticalScrollIndicator={false}
-		    showsHorizontalScrollIndicator={false}
-		    pagingEnabled
-		    horizontal
-		    initialScrollIndex={currentIndex}
-		    onScrollToIndexFailed={()=>{}}
-		    onScroll={e => {
-			const x = e.nativeEvent.contentOffset.x;
-			setCurrentIndex(Math.round(x / width));
-		    }}
-		    data={items}
-		    renderItem={({item, index}) => {
-			return (
-			    <ZoomAbleImage
-				imageUrl={
-				    item?.mediaAsset?.og || item.media
-				}
-				style={styles.image}
-				key={index}
-			    />
-			);
-		    }}
-		/>
-		<View style={styles.imageFooterContainer}>
-		    <Text
-			style={styles.imageFooterText}
-			title={`${(currentIndex ?? 0) + 1} / ${
-			    items.length
-			}`}
-		    />
-		</View>
-	    </View>
+            <View style={styles.container}>
+                <TouchableOpacity
+                    onPress={() => onClose()}
+                    style={styles.closeIcon}>
+                    <Icon
+                        name="close-outline"
+                        height={30}
+                        width={30}
+                        fill={COLORS.tertiary}
+                    />
+                </TouchableOpacity>
+                <FlatList
+                    keyExtractor={item => item.id}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                    pagingEnabled
+                    horizontal
+                    initialScrollIndex={selectedIndex}
+                    getItemLayout={(_, index) => ({
+                        length: width,
+                        offset: width * index,
+                        index,
+                    })}
+                    onScrollToIndexFailed={() => {}}
+                    onScroll={e => {
+                        const x = e.nativeEvent.contentOffset.x;
+                        setSeletedIndex(Math.round(x / width));
+                    }}
+                    data={items}
+                    renderItem={({item, index}) => {
+                        return (
+                            <ZoomAbleImage
+                                imageUrl={item?.mediaAsset?.og || item.media}
+                                style={styles.image}
+                                key={index}
+                            />
+                        );
+                    }}
+                />
+                <View style={styles.imageFooterContainer}>
+                    <Text
+                        style={styles.imageFooterText}
+                        title={`${(selectedIndex ?? 0) + 1} / ${items.length}`}
+                    />
+                </View>
+            </View>
         </Modal>
     );
 };
@@ -184,6 +187,7 @@ const ImageView: React.FC<ImageProps> = ({images}) => {
                 items={images}
                 isVisible={openGallery}
                 selectedIndex={selectedIndex}
+                setSeletedIndex={setSeletedIndex}
                 onClose={() => handleClose()}
             />
         </>
