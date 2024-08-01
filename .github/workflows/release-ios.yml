@@ -43,7 +43,8 @@ jobs:
               uses: hendrikmuhs/ccache-action@v1.2
               with:
                 create-symlink: true
-                key: ${{ matrix.os }}-${{ matrix.type }}
+                key: ${{ runner.os }}
+                restore-keys: ${{ runner.os }}
 
             - name: Cache Pods
               uses: actions/cache@v3

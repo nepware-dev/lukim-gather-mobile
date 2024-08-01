@@ -55,7 +55,8 @@ jobs:
               uses: hendrikmuhs/ccache-action@v1.2
               with:
                 create-symlink: true
-                key: ${{ matrix.os }}-${{ matrix.type }}
+                key: ${{ runner.os }}
+                restore-keys: ${{ runner.os }}
 
             - name: Set up JDK
               uses: actions/setup-java@v3
