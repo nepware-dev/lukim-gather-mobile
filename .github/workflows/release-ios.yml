@@ -35,6 +35,11 @@ jobs:
               with:
                 secrets: ${{ toJSON(vars) }}
 
+            - name: Setup cmake
+              uses: jwlawson/actions-setup-cmake@v2
+              with:
+                cmake-version: '3.29.6'
+
             - name: Get React Native Arsenal
               run: |
                   git clone https://gitlab.com/nepware-internals/react-native-arsenal.git src/vendor/react-native-arsenal

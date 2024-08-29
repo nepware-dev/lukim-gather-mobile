@@ -25,6 +25,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		88F09C3E864340F7B39EF379 /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = 7A1B68A7165E4258A00A2EC3 /* app.js */; };
 		9CE922B49E9C4321B539B997 /* grid-print.css in Resources */ = {isa = PBXBuildFile; fileRef = FF54AC9F73EF481D899454E0 /* grid-print.css */; };
+		B75FA0359678EF590146E0E2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 651D97DF223E1451BFC9A937 /* PrivacyInfo.xcprivacy */; };
 		DA9099200376486B8FD446D7 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF8F24F1435B4447825FF945 /* Inter-SemiBold.ttf */; };
 		DD28B07A28E67D6000BBE943 /* xforms in Resources */ = {isa = PBXBuildFile; fileRef = DD28B07928E67D6000BBE943 /* xforms */; };
 		DDF143442A04099A00A058BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF143432A04099A00A058BF /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lukimgather/main.m; sourceTree = "<group>"; };
 		1D31323E29794A06B3D3F605 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../src/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		5DB9F8AE36144CDAAD48BD7B /* grid-print.css */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "grid-print.css"; path = "../src/assets/xforms/css/grid-print.css"; sourceTree = "<group>"; };
+		651D97DF223E1451BFC9A937 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = lukimgather/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		76877F14EE2E407EA1872333 /* plain.css */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = plain.css; path = ../src/assets/xforms/plain.css; sourceTree = "<group>"; };
 		7A1B68A7165E4258A00A2EC3 /* app.js */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = app.js; path = ../src/assets/xforms/app.js; sourceTree = "<group>"; };
 		7B0605E9E30E4EE2A5566B49 /* index.js */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = index.js; path = ../src/assets/xforms/src/index.js; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				DDF143432A04099A00A058BF /* GoogleService-Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				651D97DF223E1451BFC9A937 /* PrivacyInfo.xcprivacy */,
 			);
 			name = lukimgather;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				3945B405AF1E450A91CE3211 /* plain.css in Resources */,
 				4DD9C9C17C504968A1636637 /* index.html in Resources */,
 				88F09C3E864340F7B39EF379 /* app.js in Resources */,
+				B75FA0359678EF590146E0E2 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +571,7 @@
 				CODE_SIGN_ENTITLEMENTS = lukimgather/lukimgather.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 556BT62THH;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
@@ -600,7 +604,7 @@
 				CODE_SIGN_ENTITLEMENTS = lukimgather/lukimgather.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 556BT62THH;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = lukimgather/Info.plist;
@@ -699,8 +703,14 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "$(inherited)  ";
-				OTHER_CPLUSPLUSFLAGS = "$(inherited)  ";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -776,8 +786,14 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = "$(inherited)  ";
-				OTHER_CPLUSPLUSFLAGS = "$(inherited)  ";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;

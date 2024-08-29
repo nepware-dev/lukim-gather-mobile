@@ -21,7 +21,7 @@
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@dr.pogodin/react-native-fs": ">=2.21.0-alpha.8",
-    "@dr.pogodin/react-native-static-server": "0.12.0",
+    "@dr.pogodin/react-native-static-server": "0.15.2",
     "@notifee/react-native": "^7.7.1",
     "@react-native-camera-roll/camera-roll": "^7.2.2",
     "@react-native-clipboard/clipboard": "^1.13.0",
@@ -52,7 +52,7 @@
     "patch-package": "^8.0.0",
     "prettier": "^3.1.0",
     "react": "18.2.0",
-    "react-native": "0.73.6",
+    "react-native": "0.73.9",
     "react-native-audio-recorder-player": "^3.6.5",
     "react-native-blob-util": "^0.19.1",
     "react-native-code-push": "^8.2.1",
@@ -124,5 +124,6 @@
   },
   "resolutions": {
     "@types/react": "^17"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
