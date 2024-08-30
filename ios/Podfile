@@ -34,7 +34,7 @@ setup_permissions([
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+flipper_config = ENV['NO_FLIPPER'] == "0" ? FlipperConfiguration.enabled : FlipperConfiguration.disabled
 
 linkage = 'static' # ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -83,6 +83,7 @@ target 'lukimgather' do
         config.build_settings["LD"] = "clang"
         config.build_settings["CXX"] = "clang++"
         config.build_settings["LDPLUSPLUS"] = "clang++"
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = "12.0"
       end
     end
   end

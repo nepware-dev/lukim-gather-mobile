@@ -373,8 +373,14 @@ const Map: React.FC<Props> = ({
         const dt = selectedData.map((item: any) => ({
             ...item,
             sentiment: sentimentName[item.sentiment],
-            location: item.location?.coordinates
+            coordinates: item.location?.coordinates
                 ? `[${item.location.coordinates.toString?.() || ''}]`
+                : '',
+            latitude: item.location?.coordinates
+                ? item.location.coordinates[0]
+                : '',
+            longitude: item.location?.coordinates
+                ? item.location.coordinates[1]
                 : '',
             boundary: item.boundary?.coordinates
                 ? `[${item.boundary.coordinates.toString?.() || ''}]`
@@ -395,9 +401,9 @@ const Map: React.FC<Props> = ({
             {title: _('Description'), dataKey: 'description'},
             {title: _('Category'), dataKey: 'category.title'},
             {title: _('Project'), dataKey: 'project.title'},
-            {title: _('Location'), dataKey: 'location.coordinates'},
-            {title: _('Latitude'), dataKey: 'location.coordinates.0'},
-            {title: _('Longitude'), dataKey: 'location.coordinates.1'},
+            {title: _('Location'), dataKey: 'coordinates'},
+            {title: _('Latitude'), dataKey: 'latitude'},
+            {title: _('Longitude'), dataKey: 'longitude'},
             {title: _('Boundary'), dataKey: 'boundary'},
             {title: _('Sentiment'), dataKey: 'sentiment'},
             {title: _('Improvement'), dataKey: 'improvement'},
