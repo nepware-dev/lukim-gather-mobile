@@ -275,9 +275,14 @@ const CreateHappeningSurvey = () => {
                         variables: {ordering: '-modified_at'},
                     }) || {happeningSurveys: []};
                     let mergedSurveys = [];
+                    const result = { ...cacheData.createHappeningSurvey.result};
+                    result.attachment =
+                        result.attachment.map(a => {
+                        return {...a, mediaAsset: {lg: null, og: null, sm: null}};
+                    });
                     const addedSurvey = cacheData?.createHappeningSurvey
                         ? {
-                              ...cacheData.createHappeningSurvey.result,
+                              ...result,
                           }
                         : {};
                     if (readData.happeningSurveys?.length <= 0) {
