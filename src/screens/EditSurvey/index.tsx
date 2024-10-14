@@ -124,8 +124,8 @@ const EditHappeningSurvey = () => {
     );
 
     const allImages = useMemo(() => {
-        if (imageLinks?.length > -1) {
-            if (attachment?.length > -1) {
+        if (imageLinks?.length > 0) {
+            if (attachment?.length > 0) {
                 return [...attachment, ...imageLinks];
             }
             return imageLinks;
@@ -257,17 +257,30 @@ const EditHappeningSurvey = () => {
                                 variables: {
                                     ordering: '-modified_at',
                                 },
-                            }) || [];
+                            }) || {};
+
                         let updatedHappeningSurvey = readData.happeningSurveys
                             .map((obj: HappeningSurveyType) => {
                                 if (
                                     data?.editHappeningSurvey?.result?.id ===
                                     obj.id
                                 ) {
-                                    return {
-                                        ...obj,
-                                        ...data?.editHappeningSurvey?.result,
+                                    const result = {
+                                        ...data.editHappeningSurvey?.result,
                                     };
+                                    result.attachment = result.attachment.map(
+                                        a => {
+                                            return {
+                                                ...a,
+                                                mediaAsset: {
+                                                    lg: null,
+                                                    og: null,
+                                                    sm: null,
+                                                },
+                                            };
+                                        },
+                                    );
+                                    return result;
                                 }
                                 return obj;
                             })

@@ -190,6 +190,11 @@ export const CREATE_HAPPENING_SURVEY = gql`
                 attachment {
                     id
                     media
+                    mediaAsset {
+                        lg
+                        og
+                        sm
+                    }
                 }
                 audioFile
                 category {

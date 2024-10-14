@@ -304,7 +304,9 @@ const SurveyItem = () => {
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 return true;
             }
+            setIsOpenExport(false);
             Toast.error(_('Permission required'));
+            return false;
         } catch (err) {
             console.log('Error' + err);
         }
@@ -312,25 +314,30 @@ const SurveyItem = () => {
 
     const onClickExportImage = useCallback(async () => {
         try {
-            await viewShotRef.current.capture().then(async (uri: any) => {
-                if (Platform.OS === 'android') {
-                    const granted = getPermissionAndroid();
-                    if (!granted) {
-                        return;
-                    }
+            const uri = await viewShotRef.current.capture();
+            if (Platform.OS === 'android') {
+                const granted = await getPermissionAndroid();
+                if (!granted) {
+                    return;
                 }
-                const newURI = await CameraRoll.save(uri, {
-                    type: 'photo',
-                    album: 'Lukim Gather',
-                });
-                Linking.openURL(newURI);
-                Toast.show(_('Saved image in gallery!'));
-                return setIsOpenExport(false);
+            }
+
+            await CameraRoll.save(uri, {
+                type: 'photo',
+                album: 'Lukim Gather',
             });
+
+            Toast.show(_('Saved image in gallery!'));
+
+            setTimeout(() => {
+                Linking.openURL('content://media/internal/images/media');
+            }, 500);
+
+            return setIsOpenExport(false);
         } catch (error) {
             console.log(error);
         }
-    }, [getPermissionAndroid]);
+    }, [viewShotRef, getPermissionAndroid]);
 
     const [getEntireHistoryData] = useLazyQuery<{
         happeningSurveysHistory: HappeningSurveyHistoryType[];
@@ -514,7 +521,7 @@ const SurveyItem = () => {
     }, [surveyData]);
 
     const handleCloseModal = useCallback(
-        () => navigation.goBack(),
+        () => navigation.navigate('Surveys'),
         [navigation],
     );
 
