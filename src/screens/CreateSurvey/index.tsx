@@ -249,6 +249,7 @@ const CreateHappeningSurvey = () => {
                                   ...surveyInput.attachment.map(file => ({
                                       media: file.uri,
                                       id: file.name?.split?.('.').shift() || '',
+                                      mediaAsset: {lg: null, og: null, sm: null},
                                   })),
                               ]
                             : [],
@@ -275,14 +276,9 @@ const CreateHappeningSurvey = () => {
                         variables: {ordering: '-modified_at'},
                     }) || {happeningSurveys: []};
                     let mergedSurveys = [];
-                    const result = { ...cacheData.createHappeningSurvey.result};
-                    result.attachment =
-                        result.attachment.map(a => {
-                        return {...a, mediaAsset: {lg: null, og: null, sm: null}};
-                    });
                     const addedSurvey = cacheData?.createHappeningSurvey
                         ? {
-                              ...result,
+                              ...cacheData.createHappeningSurvey.result,
                           }
                         : {};
                     if (readData.happeningSurveys?.length <= 0) {
@@ -297,7 +293,6 @@ const CreateHappeningSurvey = () => {
                     cache.writeQuery({
                         query: GET_HAPPENING_SURVEY,
                         data: {
-                            ...readData,
                             happeningSurveys: mergedSurveys,
                         },
                         variables: {

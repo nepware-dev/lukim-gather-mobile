@@ -175,6 +175,7 @@ const UpdateSurvey = () => {
                             ...newImages.map(img => ({
                                 media: img.path,
                                 id: img.name?.split?.('.').shift(),
+                                mediaAsset: {lg: null, og: null, sm: null},
                             })),
                             ...surveyItem.attachment,
                         ],
