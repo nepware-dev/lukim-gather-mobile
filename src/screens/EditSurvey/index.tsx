@@ -229,6 +229,7 @@ const EditHappeningSurvey = () => {
                                     return {
                                         media: img.path || img.uri,
                                         id: img.name?.split?.('.').shift() || i,
+                                        mediaAsset: {lg: null, og: null, sm: null},
                                     };
                                 }
                                 return img;
@@ -268,18 +269,6 @@ const EditHappeningSurvey = () => {
                                     const result = {
                                         ...data.editHappeningSurvey?.result,
                                     };
-                                    result.attachment = result.attachment.map(
-                                        a => {
-                                            return {
-                                                ...a,
-                                                mediaAsset: {
-                                                    lg: null,
-                                                    og: null,
-                                                    sm: null,
-                                                },
-                                            };
-                                        },
-                                    );
                                     return result;
                                 }
                                 return obj;
@@ -293,7 +282,7 @@ const EditHappeningSurvey = () => {
                                     +new Date(a.modifiedAt),
                             );
 
-                        await cache.writeQuery({
+                        cache.writeQuery({
                             query: GET_HAPPENING_SURVEY,
                             data: {
                                 happeningSurveys: updatedHappeningSurvey,

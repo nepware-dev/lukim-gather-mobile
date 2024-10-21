@@ -185,10 +185,10 @@ const Surveys = () => {
             coordinates: item.location?.coordinates
                 ? `[${item.location.coordinates.toString?.() || ''}]`
                 : '',
-            latitude: item.location?.coordinates
+            longitude: item.location?.coordinates
                 ? item.location.coordinates[0]
                 : '',
-            longitude: item.location?.coordinates
+            latitude: item.location?.coordinates
                 ? item.location.coordinates[1]
                 : '',
             boundary: item.boundary?.coordinates

@@ -7,6 +7,7 @@ import {
 
 import {setContext} from '@apollo/client/link/context';
 import {onError} from '@apollo/client/link/error';
+import { RetryLink } from "@apollo/client/link/retry";
 import {cacheFirstNetworkErrorLink} from 'apollo-link-network-error';
 import SerializingLink from 'apollo-link-serialize';
 import {
@@ -141,7 +142,20 @@ export const getApolloClient = async (queueLink: any) => {
 
     const mediaLink = new MediaLink(client);
 
+    const retryLink = new RetryLink({
+        delay: {
+            initial: 300,
+            max: Infinity,
+            jitter: true
+        },
+        attempts: {
+            max: 3,
+            retryIf: (error, _operation) => !!error && !!_operation.query.definitions.find(e => (e as any).operation === 'mutation'),
+        }
+    });
+
     const link = ApolloLink.from([
+        retryLink,
         queueLink,
         errorLink,
         errorIgnoreLink,
