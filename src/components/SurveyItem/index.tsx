@@ -80,4 +80,4 @@ const SurveyItem = ({item, onPress}: SurveyItemProps) => {
     );
 };
 
-export default SurveyItem;
+export default React.memo(SurveyItem);

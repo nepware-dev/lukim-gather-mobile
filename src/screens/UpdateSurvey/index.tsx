@@ -145,7 +145,6 @@ const UpdateSurvey = () => {
             sentiment: activeSentiment,
             improvement: activeReview as InputMaybe<Improvement>,
             attachment: newImages.map(responseToFile),
-            audioFile: audio,
             description,
             modifiedAt: new Date().toISOString(),
         };
