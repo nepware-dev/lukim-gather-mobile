@@ -7,7 +7,6 @@ import {
 
 import {setContext} from '@apollo/client/link/context';
 import {onError} from '@apollo/client/link/error';
-import { RetryLink } from "@apollo/client/link/retry";
 import {cacheFirstNetworkErrorLink} from 'apollo-link-network-error';
 import SerializingLink from 'apollo-link-serialize';
 import {
@@ -31,6 +30,7 @@ import {setToken, setRefreshToken} from 'store/slices/auth';
 
 import MediaLink from './MediaLink';
 import {REFRESH_TOKEN} from './queries';
+import {Platform} from 'react-native';
 
 const {dispatch} = store;
 
@@ -53,7 +53,12 @@ export const getApolloClient = async (queueLink: any) => {
 
     const errorIgnoreLink = cacheFirstNetworkErrorLink(cache);
 
-    const errorLink = onError(({graphQLErrors, operation, forward}) => {
+    const errorLink = onError(({graphQLErrors, networkError, operation, forward}) => {
+        if(networkError && operation.query.definitions.some(e => (e as any).operation === 'mutation')) {
+            //retry mutation
+            console.log('NetworkError: \n', networkError);
+            client.mutate({mutation: operation.query, variables: operation.variables, context: operation.getContext()});
+        }
         if (graphQLErrors) {
             for (let err of graphQLErrors) {
                 const {
@@ -134,28 +139,16 @@ export const getApolloClient = async (queueLink: any) => {
     await persistCache({
         cache: cache,
         storage: new MMKVCacheStorageWrapper(cacheStorage),
+        debounce: 1000,
         debug: __DEV__,
-        trigger: 'background',
+        trigger: Platform.OS === 'ios' ? 'background' : 'write'
     });
 
     const client = new ApolloClient({cache});
 
     const mediaLink = new MediaLink(client);
 
-    const retryLink = new RetryLink({
-        delay: {
-            initial: 300,
-            max: Infinity,
-            jitter: true
-        },
-        attempts: {
-            max: 3,
-            retryIf: (error, _operation) => !!error && !!_operation.query.definitions.find(e => (e as any).operation === 'mutation'),
-        }
-    });
-
     const link = ApolloLink.from([
-        retryLink,
         queueLink,
         errorLink,
         errorIgnoreLink,

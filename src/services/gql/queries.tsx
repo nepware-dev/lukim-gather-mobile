@@ -244,6 +244,11 @@ export const EDIT_HAPPENING_SURVEY = gql`
                 attachment {
                     id
                     media
+                    mediaAsset {
+                        lg
+                        og
+                        sm
+                    }
                 }
                 audioFile
                 category {
@@ -294,6 +299,11 @@ export const UPDATE_HAPPENING_SURVEY = gql`
                 attachment {
                     id
                     media
+                    mediaAsset {
+                        lg
+                        og
+                        sm
+                    }
                 }
                 audioFile
                 category {
