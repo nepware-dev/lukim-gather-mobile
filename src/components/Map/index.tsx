@@ -326,22 +326,25 @@ const Map: React.FC<Props> = ({
     );
 
     const getPermissionAndroid = useCallback(async () => {
+        if(Platform.OS !== 'android') return true;
         try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                {
-                    title: _('Image export permission'),
-                    message: _('Your permission is required to save image'),
-                    buttonNegative: _('Cancel'),
-                    buttonPositive: _('OK'),
-                },
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            if(Platform.Version < 30) {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: _('Image export permission'),
+                        message: _('Your permission is required to save image'),
+                        buttonNegative: _('Cancel'),
+                        buttonPositive: _('OK'),
+                    },
+                );
+                return granted === PermissionsAndroid.RESULTS.GRANTED;
+            } else {
                 return true;
             }
-            Toast.error(_('Permission required'));
         } catch (err) {
             console.log('Error' + err);
+            return false;
         }
     }, []);
 
@@ -352,6 +355,7 @@ const Map: React.FC<Props> = ({
                 if (Platform.OS === 'android') {
                     const granted = getPermissionAndroid();
                     if (!granted) {
+                        Toast.error(_('Permission required to save image!'));
                         return;
                     }
                     imageUri = await mapRef.current.takeSnap(true);
@@ -360,8 +364,10 @@ const Map: React.FC<Props> = ({
                     type: 'photo',
                     album: 'Lukim Gather',
                 });
-                Linking.openURL(newURI);
                 Toast.show(_('Saved image in gallery!'));
+                setTimeout(() => {
+                    Linking.openURL(newURI);
+                }, 1000);
                 return setIsOpenExport(false);
             });
         } catch (error) {
