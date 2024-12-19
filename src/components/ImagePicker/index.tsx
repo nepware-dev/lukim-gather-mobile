@@ -129,7 +129,9 @@ export const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
             const image = await ImagePicker.openCamera({
                 cropping: true,
                 freeStyleCropEnabled: true,
-                compressImageQuality: 0.7,
+                compressImageQuality: 0.8,
+                width: 600,
+                height: 800,
                 multiple,
             });
             if (image) {
@@ -143,7 +145,7 @@ export const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
             const image = await ImagePicker.openPicker({
                 cropping: true,
                 freeStyleCropEnabled: true,
-                compressImageQuality: 0.7,
+                compressImageQuality: 0.8,
                 multiple,
             });
             if (image) {
