@@ -1217,12 +1217,12 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNImageCropPicker (0.41.4):
+  - RNImageCropPicker (0.41.6):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.41.4)
+    - RNImageCropPicker/QBImagePickerController (= 0.41.6)
     - TOCropViewController (~> 2.7.4)
-  - RNImageCropPicker/QBImagePickerController (0.41.4):
+  - RNImageCropPicker/QBImagePickerController (0.41.6):
     - React-Core
     - React-RCTImage
     - TOCropViewController (~> 2.7.4)
@@ -1246,7 +1246,7 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.8.0)
   - RNNotifee/NotifeeCore (7.8.0):
     - React-Core
-  - RNPermissions (4.1.4):
+  - RNPermissions (5.1.0):
     - React-Core
   - RNScreens (3.29.0):
     - glog
@@ -1626,11 +1626,11 @@ SPEC CHECKSUMS:
   RNFBCrashlytics: 11f52604cc41fde69e8cc8fcc9c578fc8d5b8a15
   RNFBMessaging: c839473d12cbe1b042b29898177033de4214e932
   RNGestureHandler: 12833709769dde5fdb36ec9d4cdf4d3a1a024122
-  RNImageCropPicker: 3d888d481c65776063556b72c19893a8b8344b1b
+  RNImageCropPicker: 8e39c01f205e00d739c31e682f068aac315587bf
   RNLinearGradient: fe2933e5c3ffe889dc3ac1ba2eeeeca590c9a529
   rnmapbox-maps: 4523a49f44df8c03ac9ea4000d9495e775b1bd85
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
-  RNPermissions: 9ce1d5b0235d42ce2cd914178ac9c2b3860ca4c7
+  RNPermissions: 77fa42b207afcef10a018006800a66a252b2f140
   RNScreens: a4d9ce8f68f833f4e42410140eafd88e38bba163
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
