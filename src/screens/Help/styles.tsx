@@ -5,7 +5,9 @@ import COLORS from 'utils/colors';
 export default StyleSheet.create({
     container: {
         height: '100%',
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 50,
         backgroundColor: COLORS.white,
     },
 });

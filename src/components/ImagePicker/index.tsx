@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import ImagePicker, {Image as ImageType} from 'react-native-image-crop-picker';
 import {Icon} from 'react-native-eva-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Modal from 'components/Modal';
 import {_} from 'services/i18n';
@@ -159,7 +160,7 @@ export const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
             isVisible={isVisible}
             onBackdropPress={onBackdropPress}
             style={styles.modal}>
-            <View style={styles.options}>
+            <SafeAreaView style={styles.options}>
                 <Pressable style={styles.option} onPress={handleGallery}>
                     <Icon
                         name="image"
@@ -178,7 +179,7 @@ export const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
                     />
                     <Text style={styles.optionText}>{_('Camera')}</Text>
                 </Pressable>
-            </View>
+            </SafeAreaView>
         </Modal>
     );
 };

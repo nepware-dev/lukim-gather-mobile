@@ -30,6 +30,7 @@ export default StyleSheet.create({
     container: {
         height: '100%',
         backgroundColor: COLORS.white,
+        paddingBottom: 30,
     },
     updateMessage: {
         marginTop: 20,

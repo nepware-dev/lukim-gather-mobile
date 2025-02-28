@@ -8,7 +8,9 @@ export default StyleSheet.create({
         borderTopColor: '#fff',
         height: '100%',
         backgroundColor: '#E7ECF2',
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 50,
     },
     searchWrapper: {
         marginRight: -25,

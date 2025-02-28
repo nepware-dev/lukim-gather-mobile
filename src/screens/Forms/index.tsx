@@ -1,26 +1,21 @@
-import React, {useEffect, useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {View, FlatList, Alert} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {RootStateOrAny, useSelector, useDispatch} from 'react-redux';
+import type {StackNavigationProp} from '@react-navigation/stack';
+import type {StackParamList} from 'navigation';
 
 import Text from 'components/Text';
 import MenuItem from 'components/MenuItem';
 import {Loader} from 'components/Loader';
 import {ConfirmBox} from 'components/ConfirmationBox';
-
 import {_} from 'services/i18n';
 import useQuery from 'hooks/useQuery';
 import {GET_SURVEY_FORMS, GET_USER_PROJECTS} from 'services/gql/queries';
-import {FormType} from '@generated/types';
-
-import type {StackNavigationProp} from '@react-navigation/stack';
-import type {StackParamList} from 'navigation';
-
+import type {FormType, ProjectType} from '@generated/types';
 import {resetForm} from 'store/slices/form';
 
 import styles from './styles';
-
-import type {ProjectType} from '@generated/types';
 
 type KeyExtractor = (item: FormType, index: number) => string;
 const keyExtractor: KeyExtractor = (item: FormType) => item.id.toString();
