@@ -351,9 +351,9 @@ const SurveyItem = () => {
             {title: _('Description'), dataKey: 'description'},
             {title: _('Category'), dataKey: 'category.title'},
             {title: _('Project'), dataKey: 'project.title'},
-            {title: _('Location'), dataKey: 'location.coordinates'},
-            {title: _('Latitude'), dataKey: 'location.coordinates.0'},
-            {title: _('Longitude'), dataKey: 'location.coordinates.1'},
+            {title: _('Location'), dataKey: 'location'},
+            {title: _('Latitude'), dataKey: 'latitude'},
+            {title: _('Longitude'), dataKey: 'longitude'},
             {title: _('Boundary'), dataKey: 'boundary'},
             {title: _('Condition'), dataKey: 'improvement'},
             {title: _('Sentiment'), dataKey: 'sentiment'},
@@ -369,6 +369,7 @@ const SurveyItem = () => {
                 });
                 (res?.data?.happeningSurveysHistory || []).forEach(
                     (surveyHistoryItem, idx) => {
+                        const coordinates = surveyHistoryItem?.serializedData?.fields?.location?.coordinates
                         dt.push({
                             ...(surveyHistoryItem?.serializedData?.fields ||
                                 {}),
@@ -396,13 +397,9 @@ const SurveyItem = () => {
                                       'MMM dd, yyyy',
                                   )
                                 : '',
-                            location: surveyHistoryItem?.serializedData?.fields
-                                ?.location?.coordinates
-                                ? `[${
-                                      surveyHistoryItem.serializedData.fields.location.coordinates.toString?.() ||
-                                      ''
-                                  }]`
-                                : '',
+                            location: coordinates ? `[${coordinates.toString?.() || ''}]` : '',
+                            latitude: coordinates ? coordinates[0] : '',
+                            longitude: coordinates ? coordinates[1] : '',
                             boundary: surveyHistoryItem?.serializedData?.fields
                                 ?.boundary?.coordinates
                                 ? `[${
@@ -445,15 +442,16 @@ const SurveyItem = () => {
                 });
             }
         } else {
+            const coordinates = surveyData.location?.coordinates;
             dt.push({
                 ...surveyData,
                 sentiment: sentimentName[surveyData.sentiment],
                 createdAt: surveyData.createdAt
                     ? format(new Date(surveyData.createdAt), 'MMM dd, yyyy')
                     : '',
-                location: surveyData.location?.coordinates
-                    ? `[${surveyData.location.coordinates.toString?.() || ''}]`
-                    : '',
+                location: coordinates ? `[${coordinates.toString?.() || ''}]` : '',
+                latitude: coordinates ? coordinates[0] : '',
+                longitude: coordinates ? coordinates[1] : '',
                 boundary: surveyData.boundary?.coordinates
                     ? `[${surveyData.boundary.coordinates.toString?.() || ''}]`
                     : '',
