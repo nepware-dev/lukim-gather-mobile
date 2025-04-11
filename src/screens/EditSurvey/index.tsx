@@ -496,6 +496,7 @@ const EditHappeningSurvey = () => {
                 style={styles.feelings}
                 value={isPublic}
                 onChange={setIsPublic}
+                disabled
             />
             <Text
                 style={styles.title}

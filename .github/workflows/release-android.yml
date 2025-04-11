@@ -91,7 +91,7 @@ jobs:
                   FASTLANE_HIDE_CHANGELOG: true
 
             - name: Archive apk artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               if: ${{ github.ref_type != 'tag' }}
               with:
                   name: apk
@@ -100,7 +100,7 @@ jobs:
                   retention-days: 14
 
             - name: Archive bundle artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               if: ${{ github.ref_type == 'tag' }}
               with:
                   name: bundle
