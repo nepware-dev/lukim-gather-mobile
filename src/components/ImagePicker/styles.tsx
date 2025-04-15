@@ -26,7 +26,7 @@ export default StyleSheet.create({
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         paddingTop: 15,
-        paddingBottom: 25,
+        paddingBottom: 40,
     },
     option: {
         flex: 1,
