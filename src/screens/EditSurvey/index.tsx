@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import {Image, ScrollView, View, Platform, TouchableOpacity} from 'react-native';
 import {
+    CommonActions,
     useNavigation,
     useRoute,
     type RouteProp,
@@ -291,7 +292,21 @@ const EditHappeningSurvey = () => {
                                 ordering: '-modified_at',
                             },
                         });
-                        navigation.navigate('Surveys');
+                        navigation.dispatch(
+                            CommonActions.reset({
+                                index: 1,
+                                routes: [
+                                    {name: 'Feed'},
+                                    {
+                                        name: 'SurveyItem',
+                                        params: {
+                                            item: data?.editHappeningSurvey
+                                                ?.result as HappeningSurveyType,
+                                        },
+                                    },
+                                ],
+                            }),
+                        );
                     } catch (e) {
                         console.log('error on happening survey', e);
                     }
