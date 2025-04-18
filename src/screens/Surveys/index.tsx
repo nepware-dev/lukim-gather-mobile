@@ -47,6 +47,7 @@ const Surveys = () => {
     const [loading, setLoading] = useState(true);
 
     const [getAllSurvey] = useLazyQuery(GET_HAPPENING_SURVEY, {
+        fetchPolicy: "cache-and-network",
         variables: {
             ordering: '-modified_at',
         },
