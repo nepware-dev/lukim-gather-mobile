@@ -80,8 +80,8 @@ android {
         applicationId "org.lukimgather"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 39
-        versionName "3.4"
+        versionCode 41
+        versionName "3.5"
 	vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
