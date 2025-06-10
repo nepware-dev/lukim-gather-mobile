@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Text from 'components/Text';
 import Modal from 'components/Modal';
@@ -48,7 +49,7 @@ const ExportActions: React.FC<Props> = ({
             isVisible={isOpenExport}
             onBackdropPress={onBackdropPress}
             style={styles.actionModal}>
-            <View style={styles.options}>
+            <SafeAreaView style={styles.options}>
                 <ActionItem
                     title={_('Export as Image (PNG)')}
                     onPress={onClickExportImage}
@@ -66,7 +67,7 @@ const ExportActions: React.FC<Props> = ({
                         icon={copyIcon}
                     />
                 )}
-            </View>
+            </SafeAreaView>
         </Modal>
     );
 };

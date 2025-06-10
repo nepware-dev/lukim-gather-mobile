@@ -14,6 +14,7 @@ import SplashScreen from 'react-native-splash-screen';
 import codePush from 'react-native-code-push';
 import Toast from 'react-native-toast-message';
 import { enableFreeze, enableScreens } from 'react-native-screens';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import AppNavigator from 'navigation';
 
@@ -87,46 +88,48 @@ const App = () => {
     }, []);
     return (
         client && (
-            <ApolloProvider client={client}>
-                <Provider store={store}>
-                    <PersistGate
-                        persistor={persistor}
-                        onBeforeLift={handleInitialize}>
-                        <LocalizeProvider
-                            translations={translations}
-                            languages={languages}
-                            defaultLanguage={initialLang}>
-                            <SyncLocaleStore>
-                                <StatusBar
-                                    barStyle="dark-content"
-                                    translucent
-                                    backgroundColor="transparent"
-                                />
-                                <NavigationContainer
-                                    ref={navigationRef}
-                                    theme={{
-                                        dark: false,
-                                        colors: {
-                                            background: COLORS.background,
-                                            primary: COLORS.primary,
-                                            card: COLORS.backgroundLight,
-                                            text: COLORS.greyTextDark,
-                                            border: COLORS.border,
-                                            notification: COLORS.primary,
-                                        },
-                                    }}>
-                                    <AppNavigator />
-                                </NavigationContainer>
-                                <Toast
-                                    config={toastConfig}
-                                    position="bottom"
-                                    visibilityTime={5000}
-                                />
-                            </SyncLocaleStore>
-                        </LocalizeProvider>
-                    </PersistGate>
-                </Provider>
-            </ApolloProvider>
+            <SafeAreaProvider>
+                <ApolloProvider client={client}>
+                    <Provider store={store}>
+                        <PersistGate
+                            persistor={persistor}
+                            onBeforeLift={handleInitialize}>
+                            <LocalizeProvider
+                                translations={translations}
+                                languages={languages}
+                                defaultLanguage={initialLang}>
+                                <SyncLocaleStore>
+                                    <StatusBar
+                                        barStyle="dark-content"
+                                        translucent
+                                        backgroundColor="transparent"
+                                    />
+                                    <NavigationContainer
+                                        ref={navigationRef}
+                                        theme={{
+                                            dark: false,
+                                            colors: {
+                                                background: COLORS.background,
+                                                primary: COLORS.primary,
+                                                card: COLORS.backgroundLight,
+                                                text: COLORS.greyTextDark,
+                                                border: COLORS.border,
+                                                notification: COLORS.primary,
+                                            },
+                                        }}>
+                                        <AppNavigator />
+                                    </NavigationContainer>
+                                    <Toast
+                                        config={toastConfig}
+                                        position="bottom"
+                                        visibilityTime={5000}
+                                    />
+                                </SyncLocaleStore>
+                            </LocalizeProvider>
+                        </PersistGate>
+                    </Provider>
+                </ApolloProvider>
+            </SafeAreaProvider>
         )
     );
 };

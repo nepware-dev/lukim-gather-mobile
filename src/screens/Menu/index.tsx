@@ -4,16 +4,17 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {Icon} from 'react-native-eva-icons';
 import {RootStateOrAny, useSelector} from 'react-redux';
 import VersionNumber from 'react-native-version-number';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {useI18nContext} from '@rna/components/I18n';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import MenuItem from 'components/MenuItem';
 import {ConfirmBox} from 'components/ConfirmationBox';
 import {_} from 'services/i18n';
 import useGetUser from 'hooks/useGetUser';
-
 import {dispatchLogout} from 'services/dispatch';
+
+import {useI18nContext} from '@rna/components/I18n';
 
 import styles from './styles';
 
@@ -64,7 +65,7 @@ const Menu = () => {
     }, [selectedLanguage]);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ConfirmBox
                 isLogoutBox={true}
                 headerText={_('Log out', selectedLanguage)}
@@ -175,7 +176,7 @@ const Menu = () => {
                 style={styles.appVersion}
                 title={`${versionString} | ${selectedLanguage}`}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 

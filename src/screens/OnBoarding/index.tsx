@@ -10,13 +10,14 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {useNetInfo} from '@react-native-community/netinfo';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Text from 'components/Text';
 import Button from 'components/Button';
 import content from 'services/data/onBoarding.json';
+import {_} from 'services/i18n';
 
 import {useI18nContext} from '@rna/components/I18n';
-import {_} from 'services/i18n';
 import cs from '@rna/utils/cs';
 
 import backgroundImage from 'assets/images/onboarding.png';
@@ -94,7 +95,7 @@ const OnBoarding = () => {
     );
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView edges={['bottom']}  style={styles.container}>
             <ImageBackground
                 source={backgroundImage}
                 resizeMode="cover"
@@ -158,7 +159,7 @@ const OnBoarding = () => {
                     </View>
                 </View>
             </ImageBackground>
-        </View>
+        </SafeAreaView>
     );
 };
 

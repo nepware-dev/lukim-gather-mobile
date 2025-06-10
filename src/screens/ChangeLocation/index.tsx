@@ -67,6 +67,7 @@ const ChangeLocation = () => {
                     setLocation({
                         point: selectedCoordinate,
                         polygon: null,
+                        isUserCurrentLocation: selectedMethod === 'Use my current location' ? true : false,
                     }),
                 );
             } else {
@@ -91,6 +92,7 @@ const ChangeLocation = () => {
                     setLocation({
                         point: null,
                         polygon: polygonValue,
+                        isUserCurrentLocation: false,
                     }),
                 );
             }
@@ -130,7 +132,7 @@ const ChangeLocation = () => {
         [handleSelectedMethod, selectedMethod],
     );
 
-    const handleLocationPick = useCallback(coordinate => {
+    const handleLocationPick = useCallback((coordinate: number[] | number[][]) => {
         setSelectedCoordinate(coordinate);
     }, []);
 

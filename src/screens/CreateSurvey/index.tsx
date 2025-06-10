@@ -130,6 +130,7 @@ const CreateHappeningSurvey = () => {
     const [audio, setAudio] = useState<RNFetchBlobFile | null>(null);
 
     const [locationDetail, setLocationDetail] = useState<string>('');
+    const [locationAccuracy, setLocationAccuracy] = useState<number>(0);
 
     const [categoryIcon] = useCategoryIcon(SurveyCategory, Number(category.id));
 
@@ -159,8 +160,10 @@ const CreateHappeningSurvey = () => {
                                 position.coords.longitude,
                                 position.coords.latitude,
                             ],
+                            isUserCurrentLocation: true,
                         }),
                     );
+                    setLocationAccuracy(position.coords.accuracy)
                     setLocationDetail('Your location');
                 });
             }
@@ -490,6 +493,12 @@ const CreateHappeningSurvey = () => {
                 multiple
             />
             <Text style={styles.title} title={_('Location')} />
+            {(location?.isUserCurrentLocation && locationAccuracy > 10) && (
+                <View>
+                    <Text style={styles.locationAccuracy} title={`${_('Accuracy')}: ${locationAccuracy.toFixed(0)} m`} />
+                    <Text style={styles.locationAccuracyMessage} title={_('Use GPS outdoors, away from tall structures for better accuracy.')} />
+                </View>
+            )}
             <View style={styles.locationCont}>
                 <View style={styles.locationWrapper}>
                     <Icon name="pin" height={20} width={20} fill={'#80A8C5'} />

@@ -9,15 +9,14 @@ import Svg, {
     Stop,
 } from 'react-native-svg';
 import * as shape from 'd3-shape';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
 import Text from 'components/Text';
-
 import {_} from 'services/i18n';
-
-import cs from '@rna/utils/cs';
 import COLORS from 'utils/colors';
 
-import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import cs from '@rna/utils/cs';
 
 import styles from './styles';
 
@@ -42,6 +41,8 @@ const TabBar = ({
 }) => {
     const {width} = useWindowDimensions();
     const tabWidth = width / 5;
+
+    const insets = useSafeAreaInsets();
 
     const leftTabBar = useMemo(
         () =>
@@ -122,6 +123,7 @@ const TabBar = ({
                         state.routes.findIndex(rt => rt.name === 'Home'),
                 ],
                 {width},
+                {bottom: insets.bottom}
             )}>
             {state.index ===
                 state.routes.findIndex(

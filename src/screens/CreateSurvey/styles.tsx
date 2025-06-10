@@ -10,7 +10,7 @@ export default StyleSheet.create({
         backgroundColor: COLORS.white,
     },
     contentContainer: {
-        paddingBottom: 50,
+        paddingBottom: 80,
     },
     existingContainer: {
         backgroundColor: '#F0F3F7',
@@ -97,6 +97,15 @@ export default StyleSheet.create({
         marginTop: 32,
         marginBottom: 11,
         color: '#70747E',
+    },
+    locationAccuracy: {
+        fontSize: 14,
+        color: COLORS.grey200,
+    },
+    locationAccuracyMessage: {
+        fontSize: 14,
+        color: COLORS.accent,
+        marginBottom: 8,
     },
     locationCont: {
         flexDirection: 'row',

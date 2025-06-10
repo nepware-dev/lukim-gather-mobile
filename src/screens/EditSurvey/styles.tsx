@@ -9,7 +9,7 @@ export default StyleSheet.create({
         backgroundColor: COLORS.white,
     },
     contentContainer: {
-        paddingBottom: 50,
+        paddingBottom: 80,
     },
     categoryCont: {
         flexDirection: 'row',

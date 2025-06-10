@@ -5,6 +5,7 @@ export default StyleSheet.create({
     actionModal: {
         justifyContent: 'flex-end',
         margin: 0,
+        paddingBottom: 20,
     },
     confirmModal: {
         margin: 0,
